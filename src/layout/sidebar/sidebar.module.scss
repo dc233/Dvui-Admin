@@ -1,0 +1,130 @@
+@import '@/styles/variables.scss';
+.sideWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    height: 100%;
+    box-sizing: border-box;
+    z-index: 99;
+    user-select: none;
+}
+.openStatus {
+    width: $menuWidth;
+    box-shadow: 2px 0 8px #1d23290d;
+    transition: all $transitionTime;
+}
+
+.fllopenStatus {
+    width: $fllMenWidth;
+    box-shadow: 2px 0 8px #1d23290d;
+    transition: all $transitionTime;
+}
+.closeStatus {
+    width: $minMenuWidth;
+    box-shadow: none;
+    transition: all $transitionTime;
+}
+
+.logo {
+    height: $logoHeight;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 30px;
+    img {
+        width: 40px;
+        height: auto;
+    }
+}
+.title {
+    height: $logoHeight;
+    line-height: $logoHeight;
+    padding: 0 20px;
+    background-color: var(--el-bg-color);
+    border-right: 1px solid var(--el-menu-border-color);
+    border-bottom: 1px solid var(--el-menu-border-color);
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 600;
+}
+.darkTabSplitTabwrapper {
+    background-color: #1e1e1e !important;
+}
+.tabSplitTabwrapper {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 65px;
+    min-width: 65px;
+    max-width: 65px;
+    overflow: hidden;
+    height: 100%;
+    background-color: #222b45;
+}
+
+.tabSplitMenuWrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 65px;
+    min-width: 145px;
+    overflow-x: hidden;
+}
+.scrollbar {
+    height: calc(100% - #{$logoHeight}) !important;
+}
+
+.tabSplitContentWrapper {
+    position: relative;
+}
+
+.labelItemwrapper {
+    position: relative;
+    min-height: 57.6px;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    z-index: 1;
+    color: #fff;
+    &:hover {
+        cursor: pointer;
+        background: hsla(0, 0%, 100%, 0.1);
+    }
+}
+
+.laber {
+    display: block;
+    font-size: 12px;
+    line-height: 14px;
+    width: 100%;
+    margin-top: 8px;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.laberactive {
+    color: var(--el-color-white);
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        background-color: var(--el-color-primary);
+    }
+    &:hover {
+        cursor: pointer;
+        color: var(--el-color-white);
+    }
+}

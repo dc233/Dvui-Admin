@@ -1,0 +1,47 @@
+@import './vxe-table.scss'; // 覆盖vxe-table样式
+@import './common.scss'; // 全局样式
+@import './transition.scss'; // 过度动效
+
+:root {
+    --main-bg-color: #f2f3f5;
+    --dark-menu-bg: #001428;
+    --card-bg: #fff;
+    --card-line: #fff;
+}
+*,
+:before,
+:after {
+    box-sizing: border-box;
+}
+html {
+    height: 100%;
+}
+html.dark {
+    --main-bg-color: #141414;
+    --dark-menu-bg: #141414;
+    --card-bg: #1d1e1f;
+    --card-line: #414243;
+}
+
+html.dark > .tabSplitTabwrapper {
+    background-color: var(--el-bg-color);
+}
+body {
+    background-color: var(--main-bg-color);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'PingFang SC',
+        'Hiragino Sans GB', 'noto sans', 'Microsoft YaHei', 'Helvetica Neue',
+        Helvetica, Arial, sans-serif;
+}
+#app {
+    height: 100%;
+}
+.el-popup-parent--hidden {
+    overflow: hidden;
+}
+.content-layout {
+    padding: 10px;
+}
+
+.grid-content {
+    margin-bottom: 10px;
+}

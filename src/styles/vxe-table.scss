@@ -1,0 +1,80 @@
+// vxe table样式覆盖
+.my-table {
+    position: relative;
+}
+.vxe-table--render-default
+    .vxe-cell--checkbox:not(.is--disabled):hover
+    .vxe-checkbox--icon {
+    color: var(--el-color-primary);
+}
+.vxe-table--render-default .is--checked.vxe-cell--checkbox .vxe-checkbox--icon {
+    color: var(--el-color-primary);
+}
+.vxe-table--render-default
+    .is--indeterminate.vxe-cell--checkbox
+    .vxe-checkbox--icon {
+    color: var(--el-color-primary);
+}
+.dark {
+    // vxe-table 暗黑模式下颜色
+    .my-table {
+        color: var(--el-text-color-secondary);
+        .vxe-table--border-line {
+            border: 1px solid #363637;
+        }
+        .vxe-table--render-wrapper
+            > .vxe-table--main-wrapper
+            > .vxe-table--header-wrapper,
+        .vxe-table--body-wrapper {
+            background-color: #141414;
+        }
+        .vxe-table--render-wrapper
+            > .vxe-table--main-wrapper
+            > .vxe-table--header-wrapper
+            > .vxe-table--header {
+            thead > .vxe-header--row > .vxe-header--column {
+                background-image: linear-gradient(#363637, #363637),
+                    linear-gradient(#363637, #363637);
+            }
+        }
+        .vxe-table--render-wrapper
+            > .vxe-table--main-wrapper
+            > .vxe-table--header-wrapper
+            > .vxe-table--header-border-line {
+            border-bottom: 1px solid #363637;
+        }
+        .vxe-table--render-wrapper
+            > .vxe-table--main-wrapper
+            > .vxe-table--body-wrapper
+            > .vxe-table--body {
+            tbody > .vxe-body--row > .vxe-body--column {
+                background-image: linear-gradient(#363637, #363637),
+                    linear-gradient(#363637, #363637);
+            }
+            tbody > .vxe-body--row.row--stripe {
+                background-color: #141414;
+            }
+            tbody > .vxe-body--row.row--hover {
+                background-color: var(--el-fill-color-light);
+            }
+        }
+
+        .vxe-table--render-wrapper
+            > .vxe-table--main-wrapper
+            > .vxe-table--body-wrapper
+            > .vxe-table--body {
+            tbody > .row--checked {
+                background-color: #141414;
+            }
+        }
+
+        .vxe-cell--checkbox .vxe-checkbox--icon:before {
+            background-color: #141414;
+            // border: 2px solid #363637;
+        }
+    }
+    // 表格工具栏 暗黑模式下颜色
+    .vxe-toolbar {
+        background-color: #1d1e1f;
+    }
+}
