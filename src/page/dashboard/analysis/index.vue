@@ -96,14 +96,14 @@
         <el-row :gutter="10" class="mini-mb">
             <el-col :span="16">
                 <el-card>
-                    <div class="h-400">
+                    <div class="h-400px">
                         <div ref="lineRef" class="wh-full"></div>
                     </div>
                 </el-card>
             </el-col>
             <el-col :span="8">
                 <el-card>
-                    <div ref="pieRef" class="w-full h-400"></div>
+                    <div ref="pieRef" class="w-full h-400px"></div>
                 </el-card>
             </el-col>
         </el-row>
@@ -113,7 +113,7 @@
                     <template #header>
                         <div class="card-header">时间线</div>
                     </template>
-                    <div class="h-360">
+                    <div class="h-360px">
                         <el-timeline>
                             <el-timeline-item
                                 v-for="(activity, index) in activities"
@@ -131,7 +131,7 @@
                     <template #header>
                         <div class="card-header">任务进度</div>
                     </template>
-                    <div class="h-360">
+                    <div class="h-360px">
                         <el-table :data="tableData" style="width: 100%">
                             <el-table-column prop="date" label="时间" />
                             <el-table-column prop="name" label="任务名称" />

@@ -8,6 +8,7 @@ import 'normalize.css';
 import { useTable } from '@/library/vxe-table';
 import './styles/index.scss';
 import 'virtual:svg-icons-register';
+import 'virtual:uno.css'; // 原子化CSS
 import copy from '@/directives/copy';
 async function setupApp() {
     // 创建vue实例

@@ -24,7 +24,7 @@
                     @change="switchLayoutmode"
                 />
             </div>
-            <div style="margin-top: 60px">
+            <!-- <div style="margin-top: 60px">
                 <el-divider content-position="center">系统主题</el-divider>
                 <div class="colors-wrapper">
                     <div
@@ -35,16 +35,16 @@
                         :style="{ 'background-color': item }"
                         @click="switchColor(item)"
                     ></div>
+                    <div class="color-wrapper">
+                        <el-color-picker
+                            :model-value="gobalStore.color"
+                            size="small"
+                            @change="switchColor"
+                        />
+                    </div>
                 </div>
-                <div class="color-diy">
-                    <el-color-picker
-                        :model-value="gobalStore.color"
-                        size="small"
-                        @change="switchColor"
-                    />
-                </div>
-            </div>
-            <div>
+            </div> -->
+            <div style="margin-top: 60px">
                 <el-divider content-position="center">界面功能</el-divider>
                 <!-- <div class="setting-item-wrapper">
                     <span>头部反转色</span>
@@ -54,6 +54,15 @@
                     <span>固定头部和多页签</span>
                     <el-switch> </el-switch>
                 </div> -->
+                <div class="setting-item-wrapper">
+                    <span>主题颜色</span>
+                    <el-color-picker
+                        :model-value="gobalStore.color"
+                        size="small"
+                        :predefine="defaultColor"
+                        @change="switchColor"
+                    />
+                </div>
                 <div class="setting-item-wrapper">
                     <span>标签页持久化</span>
                     <el-switch
@@ -140,11 +149,11 @@
 </template>
 
 <script setup lang="ts" name="SettingDrawer">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useGlobalStore } from '@/store/global';
 import { userStore } from '@/store/user';
 import StyleExample from './StyleExample.vue';
-import { themeColorList } from '@/setting/theme.ts';
+import { themeColorList } from '@/setting/theme';
 import { usePrimaryColor } from '@/hook/index';
 // import LeftBg from '@/assets/img/bg_img.webp';
 import { setThemeColor, setThemeLayout, setAnimateType } from '@/utils';
@@ -180,6 +189,8 @@ const user = userStore();
 //     },
 // ]);
 
+// 主题颜色预制
+const defaultColor = ref(themeColorList);
 const layoutExampleList = reactive([
     {
         leftBg: '#000000',
@@ -236,16 +247,16 @@ const switchColor = (val: string) => {
     setThemeColor(val);
 };
 // 禁用系统动画
-const animateChange = (value): void => {
+const animateChange = (value: boolean): void => {
     gobalStore.updateAnimate(value);
 };
 // 设置系统动画
-const animateModeChange = (value): void => {
+const animateModeChange = (value: string): void => {
     gobalStore.updateAnimatemode(value);
     setAnimateType(value);
 };
 // 是否缓存页面
-const cachepageChange = (value): void => {
+const cachepageChange = (value: boolean): void => {
     gobalStore.uodataCachepage(value);
 };
 // 清除所有缓存

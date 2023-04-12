@@ -63,7 +63,7 @@
                             <el-link type="primary">更多</el-link>
                         </div>
                     </template>
-                    <div class="h-360 grid-three-layout small-pd">
+                    <div class="h-360px grid-three-layout small-pd">
                         <div class="small-pd project-box">
                             <a href="https://cn.vuejs.org/" target="_blank">
                                 <div class="techlog">
@@ -186,7 +186,7 @@
                         <span>消息</span>
                         <el-link type="primary">更多</el-link>
                     </div>
-                    <div class="h-280">
+                    <div class="h-280px">
                         <el-scrollbar>
                             <div
                                 v-for="(item, index) in messageList"
@@ -218,7 +218,7 @@
                             <span>快捷操作</span>
                         </div>
                     </template>
-                    <div class="h-280 grid-three-layout small-pd">
+                    <div class="h-280px grid-three-layout small-pd">
                         <div class="action-item">
                             <el-icon :size="40">
                                 <svg-icon icon-class="k-zhitai" />
@@ -258,7 +258,7 @@
                     </div>
                 </el-card>
                 <el-card>
-                    <div class="h-380">
+                    <div class="h-380px">
                         <img
                             class="image-web"
                             src="@image/web_devices.png"

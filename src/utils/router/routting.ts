@@ -15,11 +15,18 @@ export function transforAuthhiddenRoutes(
     const globalMenu: AuthRoute.Route[] = [];
     routes.forEach((route) => {
         const itemRoute = { ...route } as unknown as AuthRoute.Route;
+        // 剔除菜单带有权限的childern
+        if (route.meta?.auth) {
+            delete itemRoute.children;
+            console.log(itemRoute);
+        }
         if (route.children) {
             const menuChildren = transforAuthhiddenRoutes(route.children);
             itemRoute.children = menuChildren;
         }
-        if (!hideInMenu(route)) {
+
+        // 左侧菜单过滤隐藏的路由和功能按钮
+        if (!hideInMenu(route) && hasComponent(route)) {
             globalMenu.push(itemRoute);
         }
     });
@@ -98,12 +105,19 @@ export function transformAuthRouteToVueRoute(item: AuthRoute.Route) {
         const children = (item.children as AuthRoute.Route[])
             .map((child) => transformAuthRouteToVueRoute(child))
             .flat();
+
         if (item.component === 'multi') {
             // 多级路由，将子路由提取出来变成同级
             resultRoute.push(...children);
             delete itemRoute.children;
         } else {
-            itemRoute.children = children;
+            // 判断是否有权限按钮
+            if (itemRoute.meta?.auth) {
+                itemRoute.meta.button = itemRoute.children;
+                delete itemRoute.children;
+            } else {
+                itemRoute.children = children;
+            }
         }
     }
     resultRoute.push(itemRoute);
@@ -151,7 +165,7 @@ export function hasChildren(item: AuthRoute.Route) {
 
 /** 路由不转换菜单 */
 function hideInMenu(route: AuthRoute.Route) {
-    return Boolean(route.meta.hidden);
+    return Boolean(route?.meta?.hidden);
 }
 
 /**
@@ -159,5 +173,5 @@ function hideInMenu(route: AuthRoute.Route) {
  * @param item - 权限路由
  */
 function isSingleRoute(item: AuthRoute.Route) {
-    return Boolean(item.meta.singleLayout);
+    return Boolean(item?.meta?.singleLayout);
 }

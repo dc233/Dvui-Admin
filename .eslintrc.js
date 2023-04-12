@@ -24,5 +24,6 @@ module.exports = {
         'vue/require-default-prop': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-var-requires': 'off',
+        'vue/prop-name-casing': 'off',
     },
 };

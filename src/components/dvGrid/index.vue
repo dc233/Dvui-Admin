@@ -19,8 +19,7 @@ import {
     VNodeArrayChildren,
     VNode,
 } from 'vue';
-import type {} from './interface/index';
-BreakPoint;
+import type { BreakPoint } from './interface/index';
 type Props = {
     cols?: number | Record<BreakPoint, number>;
     collapsed?: boolean;
@@ -29,7 +28,7 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    cols: () => ({ xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }),
+    cols: () => ({ xs: 1, sm: 2, md: 2, lg: 4, xl: 5 }),
     collapsed: false,
     collapsedRows: 1,
     gap: 0,
@@ -92,7 +91,9 @@ const cols = computed(() => {
 });
 provide('cols', cols);
 
-const slots = useSlots().default!() as any;
+// const slots = useSlots().default!() as any;
+
+const slots = useSlots().default?.() as any;
 
 // 寻找需要开始折叠的字段 index
 const findIndex = () => {

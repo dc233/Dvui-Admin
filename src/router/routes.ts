@@ -192,7 +192,14 @@ export const staticRoutes: AuthRoute.Route[] = [
                         meta: {
                             title: '普通表格',
                             icon: 'table-file',
+                            auth: true,
                         },
+                        children: [
+                            {
+                                name: '新增',
+                                action: 'add',
+                            },
+                        ],
                     },
                     {
                         path: '/devComponents/table/advacetable',
@@ -225,6 +232,42 @@ export const staticRoutes: AuthRoute.Route[] = [
                         },
                     },
                 ],
+            },
+        ],
+    },
+    {
+        path: '/authority',
+        name: 'authority',
+        component: 'layout',
+        meta: {
+            title: '权限管理',
+            icon: 'permissions',
+        },
+        children: [
+            {
+                path: '/authority/menuAuth',
+                name: 'authority_menuAuth',
+                component: 'self',
+                meta: {
+                    title: '菜单权限',
+                    icon: 'hamburger-button',
+                    auth: true,
+                },
+                children: [
+                    {
+                        name: '新增',
+                        action: 'add',
+                    },
+                ],
+            },
+            {
+                path: '/authority/buttonAuth',
+                name: 'authority_buttonAuth',
+                component: 'self',
+                meta: {
+                    title: '按钮权限',
+                    icon: 'hamburger-button',
+                },
             },
         ],
     },

@@ -29,9 +29,10 @@ const { activePadding } = useBasicLayout();
 
 <style lang="scss" scoped>
 .main-layout {
-    padding-top: 80px;
+    // padding-top: 80px;
     padding-left: v-bind(activePadding);
-    overflow-x: hidden;
+    overflow: hidden;
+    // overflow-x: hidden;
     // transition: all 0.5s;
 }
 </style>

@@ -8,6 +8,7 @@ declare module '@vue/runtime-core' {
     DvGrid: typeof import('./src/components/dvGrid/index.vue')['default']
     DvSearchForm: typeof import('./src/components/dvSearchForm/index.vue')['default']
     DvStatistic: typeof import('./src/components/dvStatistic/index.vue')['default']
+    DvTable: typeof import('./src/components/dvTable/index.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']

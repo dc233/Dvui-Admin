@@ -36,6 +36,8 @@ export const useRouteStore = defineStore('route-store', {
         handleAuthRoutes(routes: AuthRoute.Route[]) {
             this.menus = transforAuthhiddenRoutes(routes);
             const vueRoutes = transformAuthRoutesToVueRoutes(routes);
+            console.log(routes);
+            console.log(vueRoutes);
             vueRoutes.forEach((route) => {
                 router.addRoute(route);
             });

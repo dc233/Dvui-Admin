@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="logincontainer">
         <div class="login-left">
             <div class="login-title">
                 <div class="logintext-h">
@@ -181,7 +181,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.logincontainer {
     position: relative;
     width: 100%;
     height: 100vh;

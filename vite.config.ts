@@ -16,6 +16,7 @@ import progress from 'vite-plugin-progress'; // 打包进度条‘
 //import viteImagemin from 'vite-plugin-imagemin'; // 图片压缩
 import removeConsole from 'vite-plugin-remove-console'; // 生产环境去除console.log
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'; // 引用svg图标
+import UnoCSS from 'unocss/vite'; // 原子化CSS
 const path = require('path');
 
 // https://vitejs.dev/config/;
@@ -23,8 +24,8 @@ const path = require('path');
 export default defineConfig(({ command }): UserConfig => {
     const isBuild = command === 'build';
     // 静态资源后缀名匹配
-    const pictureSuffix =
-        /\jpg|png|tif|gif|pcx|tga|exif|fpx|svg|psd|cdr|pcd|dxf|ufo|eps|ai|raw|WMF|webp|jpeg$/;
+    // const pictureSuffix =
+    //     /\jpg|png|tif|gif|pcx|tga|exif|fpx|svg|psd|cdr|pcd|dxf|ufo|eps|ai|raw|WMF|webp|jpeg$/;
     return {
         base: isBuild ? '/' : '/',
         resolve: {
@@ -121,6 +122,7 @@ export default defineConfig(({ command }): UserConfig => {
                 symbolId: '[name]',
                 customDomId: '__svg__icons__dom__',
             }),
+            UnoCSS(),
         ],
         css: {
             preprocessorOptions: {

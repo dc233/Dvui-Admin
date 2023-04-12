@@ -29,7 +29,7 @@
         >
             <template #header>
                 <div class="vuecmf_dlg_header">
-                    <div class="vuecmf_dlg_title" v-html="title"></div>
+                    <div class="vuecmf_dlg_title">{{ title }}</div>
                     <div class="min_btn" title="最小化" @click="minScreen">
                         —
                     </div>

@@ -16,97 +16,110 @@
                 :closable="!isAffix(item)"
             />
         </el-tabs>
-        <ul
-            v-show="showContextMenu"
-            class="contex-menu-wrapper"
-            :style="contextMenuStyle"
-        >
-            <li>
-                <el-button :underline="false" text @click="refreshRoute">
+        <transition name="el-zoom-in-top">
+            <ul
+                v-show="showContextMenu"
+                class="contex-menu-wrapper"
+                :style="contextMenuStyle"
+            >
+                <li @click="refreshRoute">
                     <el-icon
                         color="var(--color)"
                         :size="14"
-                        style="padding-right: 4px"
+                        style="margin-right: 4px"
                     >
                         <svg-icon icon-class="refresh" />
                     </el-icon>
-                    刷新页面</el-button
-                >
-            </li>
-            <li>
-                <el-button :underline="false" text @click="currentRouter">
+                    刷新页面
+                </li>
+                <hr />
+                <li @click="currentRouter">
                     <el-icon
                         color="var(--color)"
                         :size="14"
-                        style="padding-right: 4px"
+                        style="margin-right: 4px"
                     >
                         <svg-icon icon-class="close-small" />
                     </el-icon>
-                    关闭当前</el-button
-                >
-            </li>
-            <li>
-                <el-button :underline="false" text @click="closeLeft">
+                    关闭当前
+                </li>
+                <hr />
+                <li @click="closeLeft">
                     <el-icon
                         color="var(--color)"
                         :size="14"
-                        style="padding-right: 4px"
+                        style="margin-right: 4px"
                     >
                         <svg-icon icon-class="to-left" />
                     </el-icon>
-                    关闭左侧</el-button
-                >
-            </li>
-            <li>
-                <el-button :underline="false" text @click="closeRight">
+                    关闭左侧
+                </li>
+                <hr />
+                <li @click="closeRight">
                     <el-icon
                         color="var(--color)"
                         :size="14"
-                        style="padding-right: 4px"
+                        style="margin-right: 4px"
                     >
                         <svg-icon icon-class="to-right" />
                     </el-icon>
-                    关闭右侧</el-button
-                >
-            </li>
-            <li>
-                <el-button :underline="false" text @click="closeAll">
+                    关闭右侧
+                </li>
+                <hr />
+                <li @click="closeAll">
                     <el-icon
                         color="var(--color)"
                         :size="14"
-                        style="padding-right: 4px"
+                        style="margin-right: 4px"
                     >
                         <svg-icon icon-class="close-one" />
                     </el-icon>
-                    关闭所有</el-button
-                >
-            </li>
-        </ul>
+                    关闭所有
+                </li>
+            </ul>
+        </transition>
     </div>
 </template>
 
 <script setup lang="ts" name="Tabs">
 import { useRoute, useRouter } from 'vue-router';
+import type { LocationQueryRaw, RouteRecordNormalized } from 'vue-router';
 import { useBasicLayout } from '@/composables/layouts';
 import { ref, watch, reactive, unref } from 'vue';
 import qs from 'qs';
 import { handleAliveRoute, delAliveRoutes } from '@/utils/router/cachRouter';
 import { setSession, getSession } from '@/utils/storage';
+import { TabsPaneContext } from 'element-plus';
 const { activePadding } = useBasicLayout();
+type meatprops = {
+    name: string;
+    title: string;
+    icon: string;
+    affix: boolean;
+    keepAlive: boolean;
+};
+interface TabsRouter extends Partial<Omit<RouteRecordNormalized, 'meta'>> {
+    fullPath: string;
+    meta: meatprops;
+    name: string;
+}
 const route = useRoute();
 const router = useRouter();
 const currentTab = ref(route.fullPath);
-const tabsRoutes = ref(getSession('__tabsroute__') || []);
-const selectRoute = ref(null);
+const tabsRoutes = ref((getSession('__tabsroute__') as TabsRouter[]) || []);
+const selectRoute = ref();
 const showContextMenu = ref(false);
 const contextMenuStyle = reactive({
-    left: 0,
-    top: 0,
+    left: '0px',
+    top: '0px',
 });
 // 点击tab跳转路由
-const clickTab = (tabval) => {
-    const query = tabval.props.name.split('?')[1];
-    router.push({ path: tabval.props.name, query: qs.parse(query) });
+const clickTab = (tabval: TabsPaneContext) => {
+    const query = (tabval.props?.name as string).split('?')[1];
+    router.push({
+        path: tabval.props.name as string,
+        query: qs.parse(query) as LocationQueryRaw,
+    });
 };
 // 点击删除路由
 const removeTab = (name: string) => {
@@ -119,7 +132,7 @@ const removeTab = (name: string) => {
     if (findItem !== -1) {
         tabsRoutes.value.splice(findItem, 1);
         // 去除当前路由的缓存
-        handleAliveRoute(currentItem, 'delete');
+        handleAliveRoute(currentItem as RouteRecordNormalized[], 'delete');
         if (currentTab.value === name) {
             currentTab.value =
                 tabsRoutes.value[tabsRoutes.value.length - 1].fullPath;
@@ -129,23 +142,23 @@ const removeTab = (name: string) => {
 };
 
 // 右键扩展菜单
-const onContextMenu = (item, ctx) => {
+const onContextMenu = (item: string, ctx: MouseEvent) => {
     const { clientX } = ctx;
     const { x } = document
-        .querySelector('.tabs-layout')
-        .getBoundingClientRect();
+        ?.querySelector('.tabs-layout')
+        ?.getBoundingClientRect() as DOMRect;
     const parentElementRect = document
-        .getElementById('tagViewTab')
-        .getElementsByClassName('el-tabs__nav is-top')[0]
-        .getBoundingClientRect();
-    console.log(clientX, parentElementRect.x, parentElementRect.width);
+        ?.getElementById('tagViewTab')
+        ?.getElementsByClassName('el-tabs__nav is-top')[0]
+        ?.getBoundingClientRect() as DOMRect;
+
     if (clientX < parentElementRect.x) return;
     if (clientX > parentElementRect.x + parentElementRect.width) return;
     selectRoute.value = null;
     selectRoute.value = tabsRoutes.value.find((it) => {
         const { x, width } = document
-            .getElementById('tab-' + it.fullPath)
-            .getBoundingClientRect();
+            ?.getElementById('tab-' + it.fullPath)
+            ?.getBoundingClientRect() as DOMRect;
         if (x < clientX && clientX < x + width) {
             return it;
         }
@@ -162,12 +175,12 @@ const onContextMenu = (item, ctx) => {
     }
 };
 
-const isAffix = (itemroute) => {
+const isAffix = (itemroute: TabsRouter) => {
     return itemroute.meta && itemroute.meta.affix;
 };
 
 // 监听路由存储菜单
-const savetabsRoutes = (val) => {
+const savetabsRoutes = (val: TabsRouter) => {
     if (!tabsRoutes.value.some((item) => item.fullPath === val.fullPath)) {
         tabsRoutes.value.push(val);
     }
@@ -197,7 +210,7 @@ const closeLeft = () => {
     );
     const routes = tabsRoutes.value.slice(1, findItem);
     if (findItem <= 1) return;
-    delAliveRoutes(routes);
+    delAliveRoutes(routes as RouteRecordNormalized[]);
     batchClosetag(1, findItem - 1);
 };
 // 关闭右侧的路由
@@ -210,7 +223,7 @@ const closeRight = () => {
         tabsRoutes.value.length,
     );
     if (findItem === -1 || routes.length === 0) return;
-    delAliveRoutes(routes);
+    delAliveRoutes(routes as RouteRecordNormalized[]);
     batchClosetag(findItem + 1, tabsRoutes.value.length);
 };
 // 关闭所有路由
@@ -220,24 +233,28 @@ const closeAll = () => {
     console.log(currentRoute);
     if (routes.length === 0) return;
     if (!currentRoute) return;
-    console.log('zz');
-    delAliveRoutes(routes);
+    delAliveRoutes(routes as RouteRecordNormalized[]);
     batchClosetag(1, tabsRoutes.value.length);
     currentTab.value = currentRoute.fullPath;
     router.push(currentTab.value);
 };
 // 批量关闭Tag
-const batchClosetag = (startIndex, legnth) => {
+const batchClosetag = (startIndex: number, legnth: number) => {
     tabsRoutes.value.splice(startIndex, legnth);
 };
 watch(
     () => route,
     (val) => {
         const { fullPath, meta, name } = val;
+        console.log(val);
         // 重定向不增加tabs列
         if (name === 'Redirect') return;
         currentTab.value = fullPath;
-        savetabsRoutes({ fullPath: fullPath, meta: meta, name: name });
+        savetabsRoutes({
+            fullPath: fullPath,
+            meta: meta as meatprops,
+            name: name as string,
+        });
     },
     {
         immediate: true,
@@ -248,6 +265,7 @@ watch(
 watch(
     tabsRoutes,
     (val) => {
+        console.log(val);
         setSession('__tabsroute__', val);
     },
     {
@@ -274,10 +292,12 @@ watch(showContextMenu, (val) => {
     height: 32px;
     padding-left: v-bind(activePadding);
     box-sizing: border-box;
-    background-color: var(--el-bg-color);
+    // background-color: var(--el-bg-color);
     z-index: 97;
     border-bottom: 1px solid var(--el-menu-border-color);
-
+    background-image: radial-gradient(transparent 1px, var(--el-bg-color) 1px);
+    background-size: 4px 4px;
+    backdrop-filter: saturate(50%) blur(4px);
     .el-tabs {
         position: relative;
         height: 32px !important;
@@ -294,11 +314,27 @@ watch(showContextMenu, (val) => {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     background-color: var(--el-bg-color);
     padding-left: 0;
+    hr {
+        // margin:5px 0;
+        border: none;
+        height: 1px;
+        font-size: 0px;
+        background-color: var(--el-border-color-light);
+    }
     li {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        cursor: pointer;
+        line-height: 30px;
+        padding: 0 17px;
+        color: #606266;
         width: 100%;
         box-sizing: border-box;
-        .el-button.is-text {
-            width: 100%;
+        font-size: 14px;
+        &:hover {
+            background-color: #ecf5ff;
+            color: var(--el-color-primary);
         }
     }
 }
