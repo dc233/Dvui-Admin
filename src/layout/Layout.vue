@@ -7,11 +7,16 @@
             <Tabs />
         </div>
         <!-- 分栏布局 -->
-        <template v-if="gobalStore.layoutMode === 'lcr'">
+        <template v-if="gobalStore.layoutMode === 'columns'">
             <TabSplitSidebar />
         </template>
         <!-- 左右布局 -->
-        <template v-if="gobalStore.layoutMode === 'ltr'">
+        <template
+            v-if="
+                gobalStore.layoutMode === 'vertical' ||
+                gobalStore.layoutMode === 'classic'
+            "
+        >
             <SideBar />
         </template>
 

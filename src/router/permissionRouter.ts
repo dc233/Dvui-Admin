@@ -5,10 +5,12 @@ import { handleAliveRoute } from '@/utils/router/cachRouter';
 import { getToken } from '@/utils/auth';
 import { ElNotification } from 'element-plus';
 import { createDynamicRouteGuard } from './dynamic';
-
+import NProgress from '@/library/nprogress';
 //  路由守卫函数
 export function createRouterGuard(router: Router) {
     router.beforeEach(async (to, from, next) => {
+        // NProgress 开始
+        NProgress.start();
         // 动态路由
         const isLogin = Boolean(getToken());
         const permission = await createDynamicRouteGuard(to, from, next);
@@ -57,6 +59,7 @@ export function createRouterGuard(router: Router) {
     });
     router.afterEach((to) => {
         // 设置document title
+        NProgress.done();
         useTitle(to.meta.title as string);
     });
     router.onError((error) => {

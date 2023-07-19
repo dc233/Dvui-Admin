@@ -1,12 +1,12 @@
 @import './vxe-table.scss'; // 覆盖vxe-table样式
 @import './common.scss'; // 全局样式
 @import './transition.scss'; // 过度动效
-
 :root {
     --main-bg-color: #f2f3f5;
     --dark-menu-bg: #001428;
     --card-bg: #fff;
     --card-line: #fff;
+    --classic-bg: #001428;
 }
 *,
 :before,
@@ -21,6 +21,7 @@ html.dark {
     --dark-menu-bg: #141414;
     --card-bg: #1d1e1f;
     --card-line: #414243;
+    --classic-bg: #141414;
 }
 
 html.dark > .tabSplitTabwrapper {
@@ -39,11 +40,32 @@ body {
     // background-color: var(--el-bg-color);
     overflow-x: hidden;
 }
+// 覆盖elementplus默认样式
+.vertical .el-menu-item.is-active:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    content: '';
+    background-color: var(--el-color-primary);
+}
+.columns .el-menu-item.is-active:before {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    content: '';
+    background-color: var(--el-color-primary);
+}
 .el-popup-parent--hidden {
     overflow: hidden;
 }
 .content-layout {
     padding: 10px;
+    height: 100%;
+    overflow: auto;
 }
 
 .grid-content {

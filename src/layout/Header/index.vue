@@ -2,7 +2,7 @@
     <header class="header_layout">
         <div class="flex-spacewent header-content">
             <div v-if="!layoutMode" class="left-header" @click="switchMenu">
-                <el-icon color="var(--el-text-color-regular)" :size="20">
+                <el-icon :size="20">
                     <svg-icon
                         :icon-class="
                             gobalStore.iScollapse ? 'menu-unfold' : 'menu-fold'
@@ -19,7 +19,7 @@
             <div v-if="layoutMode" class="left-meneu">
                 <LevelSidebar />
             </div>
-            <div class="right-header">
+            <div class="right-header pr-20px">
                 <div class="header-circle">
                     <el-button circle>
                         <el-icon
@@ -126,7 +126,7 @@ const { activePadding } = useBasicLayout();
 const { switchTheme } = useGlobaltheme();
 const gobalStore = useGlobalStore();
 const user = userStore();
-const layoutMode = computed(() => gobalStore.layoutMode === 'ttb');
+const layoutMode = computed(() => gobalStore.layoutMode === 'transverse');
 
 // 切换菜单是否折叠
 const switchMenu = () => {
@@ -149,6 +149,23 @@ const loginout = () => {
         })
         .catch();
 };
+
+// 切换背景颜色
+const bgColor = computed(() => {
+    if (gobalStore.layoutMode === 'classic') {
+        return 'var(--classic-bg)';
+    } else {
+        return 'var(--el-bg-color)';
+    }
+});
+// 切换文字颜色
+const textColor = computed(() => {
+    if (gobalStore.layoutMode === 'classic') {
+        return '#fff';
+    } else {
+        return 'var(--el-text-color-primary)';
+    }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -161,12 +178,10 @@ const loginout = () => {
     height: 48px;
     padding-left: v-bind(activePadding);
     box-sizing: border-box;
-    // background-color: var(--el-bg-color);
+    background-color: v-bind(bgColor);
+    color: v-bind(textColor);
     // box-shadow: 0 1px 2px #00152914;
     // background-color: #fff;
-    background-image: radial-gradient(transparent 1px, var(--el-bg-color) 1px);
-    background-size: 4px 4px;
-    backdrop-filter: saturate(50%) blur(4px);
     // webkit-backdrop-filter: saturate(50%) blur(4px);
     border-bottom: 1px solid var(--el-menu-border-color);
     z-index: 98;
@@ -182,9 +197,6 @@ const loginout = () => {
             justify-content: center;
             align-items: center;
             cursor: pointer;
-        }
-        .left-header:hover {
-            background-color: var(--el-fill-color-light);
         }
         .left-logo {
             a {
@@ -225,6 +237,7 @@ const loginout = () => {
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     padding-left: 6px;
+                    color: v-bind(textColor);
                 }
             }
             .header-circle {

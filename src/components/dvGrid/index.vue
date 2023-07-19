@@ -28,7 +28,7 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    cols: () => ({ xs: 1, sm: 2, md: 2, lg: 4, xl: 5 }),
+    cols: () => ({ xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }),
     collapsed: false,
     collapsedRows: 1,
     gap: 0,

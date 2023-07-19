@@ -1,6 +1,6 @@
 <template>
     <el-drawer
-        custom-class="drawer-class"
+        class="drawer-class"
         :model-value="gobalStore.showDrawer"
         title="系统配置"
         size="15%"
@@ -17,12 +17,105 @@
                 />
             </div> -->
             <el-divider content-position="center">布局模式</el-divider>
-            <div>
-                <StyleExample
+            <div class="layout-box mb-10px">
+                <!-- <StyleExample
                     :theme-list="layoutExampleList"
                     :value="gobalStore.layoutMode"
                     @change="switchLayoutmode"
-                />
+                /> -->
+                <el-tooltip
+                    effect="dark"
+                    content="纵向"
+                    placement="top"
+                    :show-after="200"
+                >
+                    <div
+                        :class="[
+                            'layout-item layout-vertical',
+                            {
+                                'is-active':
+                                    gobalStore.layoutMode == 'vertical',
+                            },
+                        ]"
+                        @click="switchLayoutmode('vertical')"
+                    >
+                        <div class="layout-dark"></div>
+                        <div class="layout-container">
+                            <div class="layout-light"></div>
+                            <div class="layout-content"></div>
+                        </div>
+                        <el-icon v-if="gobalStore.layoutMode == 'vertical'">
+                            <svg-icon icon-class="check-one" />
+                        </el-icon>
+                    </div>
+                </el-tooltip>
+                <el-tooltip
+                    effect="dark"
+                    content="经典"
+                    placement="top"
+                    :show-after="200"
+                >
+                    <div
+                        :class="[
+                            'layout-item layout-classic',
+                            { 'is-active': gobalStore.layoutMode == 'classic' },
+                        ]"
+                        @click="switchLayoutmode('classic')"
+                    >
+                        <div class="layout-dark"></div>
+                        <div class="layout-container">
+                            <div class="layout-light"></div>
+                            <div class="layout-content"></div>
+                        </div>
+                        <el-icon v-if="gobalStore.layoutMode == 'classic'">
+                            <svg-icon icon-class="check-one" />
+                        </el-icon>
+                    </div>
+                </el-tooltip>
+                <el-tooltip
+                    effect="dark"
+                    content="横向"
+                    placement="top"
+                    :show-after="200"
+                >
+                    <div
+                        :class="[
+                            'layout-item layout-transverse',
+                            {
+                                'is-active':
+                                    gobalStore.layoutMode == 'transverse',
+                            },
+                        ]"
+                        @click="switchLayoutmode('transverse')"
+                    >
+                        <div class="layout-dark"></div>
+                        <div class="layout-content"></div>
+                        <el-icon v-if="gobalStore.layoutMode == 'transverse'">
+                            <svg-icon icon-class="check-one" />
+                        </el-icon>
+                    </div>
+                </el-tooltip>
+                <el-tooltip
+                    effect="dark"
+                    content="分栏"
+                    placement="top"
+                    :show-after="200"
+                >
+                    <div
+                        :class="[
+                            'layout-item layout-columns',
+                            { 'is-active': gobalStore.layoutMode == 'columns' },
+                        ]"
+                        @click="switchLayoutmode('columns')"
+                    >
+                        <div class="layout-dark"></div>
+                        <div class="layout-light"></div>
+                        <div class="layout-content"></div>
+                        <el-icon v-if="gobalStore.layoutMode == 'columns'">
+                            <svg-icon icon-class="check-one" />
+                        </el-icon>
+                    </div>
+                </el-tooltip>
             </div>
             <!-- <div style="margin-top: 60px">
                 <el-divider content-position="center">系统主题</el-divider>
@@ -44,7 +137,7 @@
                     </div>
                 </div>
             </div> -->
-            <div style="margin-top: 60px">
+            <div style="margin-top: 10px">
                 <el-divider content-position="center">界面功能</el-divider>
                 <!-- <div class="setting-item-wrapper">
                     <span>头部反转色</span>
@@ -86,7 +179,7 @@
                     </el-switch>
                 </div> -->
                 <div class="setting-item-wrapper">
-                    <span>左右布局侧边栏反转色</span>
+                    <span>侧边栏反转色</span>
                     <el-switch
                         v-model="settings.menuTheme"
                         active-text="开"
@@ -94,6 +187,7 @@
                         active-value="dark"
                         inactive-value="light"
                         inline-prompt
+                        :disabled="gobalStore.layoutMode !== 'vertical'"
                         @change="switchMenuThmem"
                     >
                     </el-switch>
@@ -155,39 +249,9 @@ import { userStore } from '@/store/user';
 import StyleExample from './StyleExample.vue';
 import { themeColorList } from '@/setting/theme';
 import { usePrimaryColor } from '@/hook/index';
-// import LeftBg from '@/assets/img/bg_img.webp';
 import { setThemeColor, setThemeLayout, setAnimateType } from '@/utils';
 const gobalStore = useGlobalStore();
 const user = userStore();
-// const styleExampleList = reactive([
-//     {
-//         leftBg: '#000000',
-//         rightTopBg: '#ffffff',
-//         rightBottomBg: '#f5f5f5',
-//         checked: false,
-//         themeId: 'dark-side',
-//         tipText: '深色',
-//         value: 'dark',
-//     },
-//     {
-//         leftBg: '#ffffff',
-//         rightTopBg: '#ffffff',
-//         rightBottomBg: '#d4d4d4',
-//         checked: true,
-//         themeId: 'light',
-//         tipText: '浅色',
-//         value: 'light',
-//     },
-//     {
-//         leftBg: `url(${LeftBg})`,
-//         rightTopBg: '#ffffff',
-//         rightBottomBg: '#d4d4d4',
-//         checked: true,
-//         themeId: 'diybg',
-//         tipText: '背景',
-//         value: 'diybg',
-//     },
-// ]);
 
 // 主题颜色预制
 const defaultColor = ref(themeColorList);
@@ -267,6 +331,7 @@ const clearStore = (): void => {
 </script>
 
 <style lang="scss">
+@import './index.scss';
 .drawer-class {
     .el-drawer__header {
         margin-bottom: 0;

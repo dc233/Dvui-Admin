@@ -97,6 +97,7 @@ export default defineComponent({
                 //     });
                 // }
                 treefindChildren(tab);
+                gobalStore.updateCollapse(false);
             } else {
                 const { path, meta } = tab;
                 activePath.value = path;
@@ -105,6 +106,7 @@ export default defineComponent({
                 router.push({
                     path: tab.path,
                 });
+                gobalStore.updateCollapse(true);
             }
         };
         watch(route, (val) => {
@@ -189,7 +191,7 @@ export default defineComponent({
                 </div>
                 <div class={style.tabSplitMenuWrapper}>
                     <div class={style.title}>{this.MenuTitle}</div>
-                    <Menue>
+                    <Menue class="columns">
                         {{
                             default: () => (
                                 <>

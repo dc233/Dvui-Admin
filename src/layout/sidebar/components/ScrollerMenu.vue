@@ -4,6 +4,7 @@
         wrap-class="scrollbar-wrap-class"
     >
         <el-menu
+            class="vertical"
             :default-active="activePath"
             :mode="mMode"
             active-text-color="var(--el-color-primary)"

@@ -15,6 +15,8 @@
                 <component :is="Component" v-else :key="route.fullPath" />
             </transition>
         </router-view>
+
+        <el-backtop :right="30" :bottom="50" />
     </main>
 </template>
 
@@ -32,6 +34,7 @@ const { activePadding } = useBasicLayout();
     // padding-top: 80px;
     padding-left: v-bind(activePadding);
     overflow: hidden;
+    height: calc(100vh - 80px);
     // overflow-x: hidden;
     // transition: all 0.5s;
 }

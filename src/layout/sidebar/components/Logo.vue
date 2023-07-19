@@ -23,20 +23,33 @@ const porps = withDefaults(
     },
 );
 const menuBg = computed(() => {
-    if (gobalStore.menuTheme === 'light') {
-        return 'var(--el-bg-color)';
-    } else if (gobalStore.menuTheme === 'dark') {
-        return 'var(--dark-menu-bg)';
+    if (
+        gobalStore.layoutMode === 'classic' ||
+        gobalStore.menuTheme === 'dark'
+    ) {
+        return 'var(--classic-bg)';
     } else {
-        return '#020f1f';
+        return 'var(--el-bg-color)';
     }
 });
+// const menuBg = computed(() => {
+//     if (gobalStore.menuTheme === 'light') {
+//         return 'var(--el-bg-color)';
+//     } else if (gobalStore.menuTheme === 'dark') {
+//         return 'var(--dark-menu-bg)';
+//     } else {
+//         return '#020f1f';
+//     }
+// });
 
 const logoText = computed(() => {
-    if (gobalStore.menuTheme === 'light') {
-        return 'var(--el-text-color-primary)';
-    } else {
+    if (
+        gobalStore.layoutMode === 'classic' ||
+        gobalStore.menuTheme === 'dark'
+    ) {
         return '#fff';
+    } else {
+        return 'var(--el-text-color-primary)';
     }
 });
 </script>

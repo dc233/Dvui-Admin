@@ -292,12 +292,12 @@ watch(showContextMenu, (val) => {
     height: 32px;
     padding-left: v-bind(activePadding);
     box-sizing: border-box;
-    // background-color: var(--el-bg-color);
+    background-color: var(--el-bg-color);
     z-index: 97;
     border-bottom: 1px solid var(--el-menu-border-color);
-    background-image: radial-gradient(transparent 1px, var(--el-bg-color) 1px);
-    background-size: 4px 4px;
-    backdrop-filter: saturate(50%) blur(4px);
+    // background-image: radial-gradient(transparent 1px, var(--el-bg-color) 1px);
+    // background-size: 4px 4px;
+    // backdrop-filter: saturate(50%) blur(4px);
     .el-tabs {
         position: relative;
         height: 32px !important;
@@ -344,6 +344,7 @@ watch(showContextMenu, (val) => {
     padding: 0 10px;
     .el-tabs__nav-wrap {
         line-height: 27px;
+        top: 3px;
     }
     .el-tabs__nav {
         border: none !important;
