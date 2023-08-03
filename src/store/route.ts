@@ -32,7 +32,7 @@ export const useRouteStore = defineStore('route-store', {
         };
     },
     actions: {
-        /**处理权限路由 */
+        /**处理路由 */
         handleAuthRoutes(routes: AuthRoute.Route[]) {
             this.menus = transforAuthhiddenRoutes(routes);
             const vueRoutes = transformAuthRoutesToVueRoutes(routes);
@@ -52,8 +52,10 @@ export const useRouteStore = defineStore('route-store', {
         async initAuthRoute() {
             const isDynamicRoute = this.authRouteMode === 'dynamic';
             if (isDynamicRoute) {
+                // 获取动态路由
                 await this.initDynamicRoute();
             } else {
+                // 获取静态路由
                 await this.initStaticRoute();
             }
             this.isInitAuthRoute = true;

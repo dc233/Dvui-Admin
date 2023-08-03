@@ -13,3 +13,8 @@ export function fetchLogin(data: any) {
 export function fetchGetdata(data: any) {
     return request.get<any>('/gtetable', { params: data });
 }
+
+// 用户状态接口
+export function fetchGetStatus(data: any) {
+    return request.get<any>('/userstatus', { params: data });
+}

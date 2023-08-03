@@ -31,7 +31,7 @@
                                 <svg-icon icon-class="refresh" />
                             </el-icon>
                         </el-button>
-                        <el-button circle>
+                        <el-button circle title="打印">
                             <el-icon
                                 color="var(--el-text-color-regular)"
                                 :size="14"
@@ -39,7 +39,11 @@
                                 <svg-icon icon-class="printer" />
                             </el-icon>
                         </el-button>
-                        <el-button circle @click="openColSetting">
+                        <el-button
+                            circle
+                            title="表格配置"
+                            @click="openColSetting"
+                        >
                             <el-icon
                                 color="var(--el-text-color-regular)"
                                 :size="14"
@@ -47,7 +51,24 @@
                                 <svg-icon icon-class="setting-config" />
                             </el-icon>
                         </el-button>
-                        <el-button circle @click="isShowSearch = !isShowSearch">
+                        <el-button
+                            v-if="exportdata"
+                            circle
+                            title="数据导出"
+                            @click="exportDataExcel"
+                        >
+                            <el-icon
+                                color="var(--el-text-color-regular)"
+                                :size="14"
+                            >
+                                <svg-icon icon-class="export" />
+                            </el-icon>
+                        </el-button>
+                        <el-button
+                            circle
+                            title="搜索显隐"
+                            @click="isShowSearch = !isShowSearch"
+                        >
                             <el-icon
                                 color="var(--el-text-color-regular)"
                                 :size="14"
@@ -142,13 +163,15 @@
         v-if="toolButton"
         ref="colRef"
         v-model:table-setting="tableSetting"
-        v-model:col-setting="colSetting"
+        v-model:col-setting="tableColumns"
+        @reset-table="handleResetTable"
     />
 </template>
 
 <script setup lang="ts" name="DvTable">
 import { ref, watch, computed, provide, onMounted } from 'vue';
-import { ElTable, TableProps } from 'element-plus';
+import { ElTable, TableProps, ElMessageBox } from 'element-plus';
+import { cloneDeep } from 'lodash-es';
 import { ColumnProps } from './interface/index';
 import { BreakPoint } from '@/components/dvGrid/interface';
 import { useSelection } from '@/hook/useSelection';
@@ -158,6 +181,8 @@ import {
     formatValue,
     handleProp,
     handleRowAccordingToProp,
+    getLocal,
+    removeLocal,
 } from '@/utils';
 import TableColumn from './components/TableColumn.vue';
 import Pagination from './components/Pagination.vue';
@@ -170,9 +195,10 @@ export interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
     requestAuto?: boolean; // 是否自动执行请求 api ==> 非必传（默认为true）
     requestError?: (params: any) => void; // 表格 api 请求错误监听 ==> 非必传
     dataCallback?: (data: any) => any; // 返回数据的回调函数，可以对数据进行处理 ==> 非必传
+    exportdata?: boolean; // 表格数据导出功能 ===> 非必传 (默认为false )
     title?: string; // 表格标题，目前只在打印的时候用到 ==> 非必传
     initParam?: any; // 初始化请求参数 ==> 非必传（默认为{}）
-    tableName?: string; // 表格名称 ==> 非必传（默认为空）
+    tableName: string; // 表格名称 ==> 非必传（默认为空）
     rowKey?: string; // 行数据的 Key，用来优化 Table 的渲染，当表格数据多选时，所指定的 id ==> 非必传（默认为 id）
     pagination?: boolean; // 是否需要分页组件 ==> 非必传（默认为true）
     toolButton?: boolean; // 是否显示表格功能按钮 ==> 非必传（默认为true）
@@ -180,7 +206,7 @@ export interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
 }
 // 表格配置参数
 const tableSetting = ref({
-    size: 'small',
+    size: 'default',
     stripe: true,
     border: true,
 });
@@ -192,6 +218,7 @@ const props = withDefaults(defineProps<ProTableProps>(), {
     initParam: {},
     toolButton: true,
     border: true,
+    exportdata: false,
     rowKey: 'id',
     searchCol: () => ({ xs: 1, sm: 2, md: 2, lg: 4, xl: 5 }),
 });
@@ -206,7 +233,10 @@ const tableRef = ref<InstanceType<typeof ElTable>>();
 const { selectionChange, selectedList, selectedListIds, isSelected } =
     useSelection(props.rowKey);
 
-// 表格操作 Hooks
+/**
+ * 表格操作 Hooks
+ * ⚡如果遇到某些查询条件需要另外转换成其它格式的数据，需要前往useTable组合式函数里面的updatedTotalParam方法加上转换的判断条件
+ */
 const {
     tableData,
     loading,
@@ -230,10 +260,37 @@ const {
 const clearSelection = () => tableRef.value!.clearSelection();
 
 // 接受columns 并设置为响应式
-const tableColumns = ref<ColumnProps[]>(props.columns);
+// const tableColumns = ref<ColumnProps[]>(props.columns);
+const tableColumns = ref<ColumnProps[]>(cloneDeep(props.columns));
 
 // 初始化请求
-onMounted(() => props.requestAuto && getTableList());
+onMounted(() => {
+    // 自动请求接口
+    props.requestAuto && getTableList();
+
+    // 判读是否有缓存的表格配置
+    let columons = getLocal(props.tableName);
+    if (columons) {
+        const newColumns = columons.tableColum.map((item) => {
+            const matchedItem = props.columns.find(
+                (item2) => item2.prop === item.prop,
+            );
+            if (matchedItem) {
+                if (item.render) {
+                    item.render = matchedItem.render;
+                }
+                if (item.search) {
+                    item.search = matchedItem.search;
+                }
+                return item;
+            }
+            return item;
+        });
+        // 存储缓存的表格配置
+        tableColumns.value = newColumns;
+        tableSetting.value = columons.tableSetting;
+    }
+});
 
 // 监听页面 initParam 改化，重新获取表格数据
 watch(() => props.initParam, getTableList, { deep: true });
@@ -242,7 +299,7 @@ watch(() => props.initParam, getTableList, { deep: true });
 const enumMap = ref(new Map<string, { [key: string]: any }[]>());
 
 provide('enumMap', enumMap);
-
+provide('tableName', props.tableName);
 const setEnumMap = async (col: ColumnProps) => {
     if (!col.enum) return;
     // 如果当前 enum 为后台数据需要请求数据，则调用该请求接口，并存储到 enumMap
@@ -274,7 +331,8 @@ const flatColumnsFunc = (
 
 // flatColumns
 const flatColumns = ref<ColumnProps[]>();
-flatColumns.value = flatColumnsFunc(tableColumns.value);
+
+flatColumns.value = cloneDeep(flatColumnsFunc(tableColumns.value)); // 深拷贝表格配置
 
 // 过滤需要搜索的配置项
 const searchColumns = flatColumns.value.filter(
@@ -300,13 +358,44 @@ searchColumns.sort((a, b) => a.search!.order! - b.search!.order!);
 
 // 列设置 ==> 过滤掉不需要设置的列
 const colRef = ref();
-const colSetting = tableColumns.value!.filter(
-    (item) =>
-        !['selection', 'index', 'expand'].includes(item.type!) &&
-        item.prop !== 'operation' &&
-        item.isShow,
-);
+// const colSetting = tableColumns.value!.filter(
+//     (item) =>
+//         !['selection', 'index', 'expand'].includes(item.type!) &&
+//         item.prop !== 'operation' &&
+//         item.isShow,
+// );
 const openColSetting = () => colRef.value.openColSetting();
+
+/**
+ * 表格数据导出
+ * @param searchParam 表格查询的参数
+ * @return excel格式
+ */
+function exportDataExcel() {
+    ElMessageBox.confirm('是否要导出当前数据？', '温馨提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+    }).then((res) => {
+        alert('导出成功');
+    });
+}
+
+// 重置表格配置
+
+function handleResetTable() {
+    // props.columns.forEach((item) => {
+    //     item.isShow = true;
+    //     item.sortable = false;
+    // });
+    tableColumns.value = props.columns;
+    tableSetting.value = {
+        size: 'default',
+        stripe: true,
+        border: true,
+    };
+    removeLocal(props.tableName);
+}
 // 暴露给父组件的参数和方法(外部需要什么，都可以从这里暴露出去)
 defineExpose({
     element: tableRef,

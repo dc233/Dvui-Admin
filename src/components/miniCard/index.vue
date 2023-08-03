@@ -9,14 +9,14 @@
 
 <template>
     <div class="mini-card">
-        <div class="flex-vertical">
-            <div class="header flex-spacewent">
+        <div class="flex flex-col">
+            <div class="header flex flex-justify-between flex-items-center">
                 <slot name="header"></slot>
             </div>
             <div class="content">
                 <slot name="content"></slot>
             </div>
-            <div class="footer flex-spacewent">
+            <div class="footer flex flex-justify-between flex-items-center">
                 <slot name="footer"></slot>
             </div>
         </div>

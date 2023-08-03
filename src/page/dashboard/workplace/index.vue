@@ -1,76 +1,83 @@
 <template>
     <div class="content-layout">
-        <el-card class="diy-card mini-mb">
+        <el-card class="diy-card m-b-10px">
             <template #header>
                 <div class="card-header">
                     <span>工作台</span>
                     <!-- <el-button class="button" text>时间</el-button> -->
                 </div>
             </template>
-            <div class="flex-spacewent small-pd">
-                <div class="flex-start">
+            <div class="flex flex-justify-between flex-items-center p-10px">
+                <div class="flex flex-justify-start flex-items-center">
                     <el-avatar
                         :size="80"
                         src="https://p3-passport.byteacctimg.com/img/user-avatar/0b8f05ef7e7f67af2d09f86845ea5757~300x300.image"
                     />
-                    <div class="min-pl">
+                    <div class="p-l-10px">
                         <p class="f-20">早安，Admin，开始您一天的工作吧！</p>
                         <p class="text-regular">
                             今日阴转大雨，15℃ - 25℃，出门记得带伞哦。
                         </p>
                     </div>
                 </div>
-                <div class="flex-start">
-                    <div class="flex-vertical-centener">
-                        <div class="flex-spacewent min-pr">
+                <div class="flex flex-justify-start flex-items-center">
+                    <div class="flex flex-col flex-items-center">
+                        <div
+                            class="flex flex-justify-between flex-items-center p-r-10px"
+                        >
                             <el-icon :size="30">
                                 <svg-icon icon-class="project" />
                             </el-icon>
-                            <span class="min-pl">项目数</span>
+                            <span class="p-l-10px">项目数</span>
                         </div>
 
-                        <div class="f-24 f-400-w min-pt">16</div>
+                        <div class="f-24 font-400 p-t-10px">16</div>
                     </div>
-                    <div class="flex-vertical-centener middle-pl">
-                        <div class="flex-spacewent min-pr">
+                    <div class="flex flex-col flex-items-center p-l-20px">
+                        <div
+                            class="flex flex-justify-between flex-items-center p-r-10px"
+                        >
                             <el-icon :size="30">
                                 <svg-icon icon-class="to-do" />
                             </el-icon>
-                            <span class="min-pl">待办</span>
+                            <span class="p-l-10px">待办</span>
                         </div>
 
-                        <div class="f-24 f-400-w min-pt">10</div>
+                        <div class="f-24 font-400 p-t-10px">10</div>
                     </div>
-                    <div class="flex-vertical-centener middle-pl">
-                        <div class="flex-spacewent min-pr">
+                    <div class="flex flex-col flex-items-center p-l-20px">
+                        <div
+                            class="flex flex-justify-between flex-items-center p-r-10px"
+                        >
                             <el-icon :size="30">
                                 <svg-icon icon-class="message" />
                             </el-icon>
-                            <span class="min-pl">消息</span>
+                            <span class="p-l-10px">消息</span>
                         </div>
 
-                        <div class="f-24 f-400-w min-pt">35</div>
+                        <div class="f-24 font-400 p-t-10px">35</div>
                     </div>
                 </div>
             </div>
         </el-card>
         <el-row :gutter="10">
             <el-col :span="14">
-                <el-card class="diy-card mini-mb">
+                <el-card class="diy-card m-b-10px">
                     <template #header>
                         <div class="card-header">
                             <span>项目技术栈</span>
                             <el-link type="primary">更多</el-link>
                         </div>
                     </template>
-                    <div class="h-360px grid-three-layout small-pd">
-                        <div class="small-pd project-box">
+                    <div class="h-360px grid-three-layout p-10px">
+                        <div class="p-10px project-box">
                             <a href="https://cn.vuejs.org/" target="_blank">
                                 <div class="techlog">
                                     <el-icon :size="40">
                                         <svg-icon icon-class="vues" />
                                     </el-icon>
-                                    <span class="f-18-b min-pl text-primary"
+                                    <span
+                                        class="f-18 font-bold p-l-10px text-primary"
                                         >Vue</span
                                     >
                                 </div>
@@ -82,7 +89,7 @@
                                 </p>
                             </a>
                         </div>
-                        <div class="small-pd project-box">
+                        <div class="p-10px project-box">
                             <a
                                 href="https://www.typescriptlang.org/"
                                 target="_blank"
@@ -91,7 +98,8 @@
                                     <el-icon :size="40">
                                         <svg-icon icon-class="typescript" />
                                     </el-icon>
-                                    <span class="f-18-b min-pl text-primary"
+                                    <span
+                                        class="f-18 font-bold p-l-10px text-primary"
                                         >TypeScript</span
                                     >
                                 </div>
@@ -103,13 +111,14 @@
                                 </p>
                             </a>
                         </div>
-                        <div class="small-pd project-box">
+                        <div class="p-10px project-box">
                             <a href="https://cn.vitejs.dev/" target="_blank">
                                 <div class="techlog">
                                     <el-icon :size="40">
                                         <svg-icon icon-class="vite" />
                                     </el-icon>
-                                    <span class="f-18-b min-pl text-primary"
+                                    <span
+                                        class="f-18 font-bold p-l-10px text-primary"
                                         >Vite</span
                                     >
                                 </div>
@@ -121,7 +130,7 @@
                                 </p>
                             </a>
                         </div>
-                        <div class="small-pd project-box">
+                        <div class="p-10px project-box">
                             <a
                                 href="https://element-plus.gitee.io/zh-CN/"
                                 target="_blank"
@@ -132,7 +141,8 @@
                                             icon-class="element-plus-logo"
                                         />
                                     </el-icon>
-                                    <span class="f-18-b min-pl text-primary"
+                                    <span
+                                        class="f-18 font-bold p-l-10px text-primary"
                                         >Element-Plus</span
                                     >
                                 </div>
@@ -144,7 +154,7 @@
                                 </p>
                             </a>
                         </div>
-                        <div class="small-pd project-box">
+                        <div class="p-10px project-box">
                             <a
                                 href="https://pinia.web3doc.top/"
                                 target="_blank"
@@ -153,7 +163,8 @@
                                     <el-icon :size="40">
                                         <svg-icon icon-class="pinia" />
                                     </el-icon>
-                                    <span class="f-18-b min-pl text-primary"
+                                    <span
+                                        class="f-18 font-bold p-l-10px text-primary"
                                         >Pinia</span
                                     >
                                 </div>
@@ -163,13 +174,14 @@
                                 <p class="author text-primary">Posva</p>
                             </a>
                         </div>
-                        <div class="small-pd project-box">
+                        <div class="p-10px project-box">
                             <a href="https://uno.antfu.me/" target="_blank">
                                 <div class="techlog">
                                     <el-icon :size="40">
                                         <svg-icon icon-class="unocss" />
                                     </el-icon>
-                                    <span class="f-18-b min-pl text-primary"
+                                    <span
+                                        class="f-18 font-bold p-l-10px text-primary"
                                         >UnoCss</span
                                     >
                                 </div>
@@ -212,48 +224,48 @@
                 </el-card>
             </el-col>
             <el-col :span="10">
-                <el-card class="diy-card mini-mb">
+                <el-card class="diy-card m-b-10px">
                     <template #header>
                         <div class="card-header">
                             <span>快捷操作</span>
                         </div>
                     </template>
-                    <div class="h-280px grid-three-layout small-pd">
+                    <div class="h-280px grid-three-layout p-10px">
                         <div class="action-item">
                             <el-icon :size="40">
                                 <svg-icon icon-class="k-zhitai" />
                             </el-icon>
-                            <div class="min-pt">主控台</div>
+                            <div class="p-t-10px">主控台</div>
                         </div>
                         <div class="action-item">
                             <el-icon :size="40">
                                 <svg-icon icon-class="x-gl" />
                             </el-icon>
-                            <div class="min-pt">系统管理</div>
+                            <div class="p-t-10px">系统管理</div>
                         </div>
                         <div class="action-item">
                             <el-icon :size="40">
                                 <svg-icon icon-class="q-xian" />
                             </el-icon>
-                            <div class="min-pt">权限管理</div>
+                            <div class="p-t-10px">权限管理</div>
                         </div>
                         <div class="action-item">
                             <el-icon :size="40">
                                 <svg-icon icon-class="z-jian" />
                             </el-icon>
-                            <div class="min-pt">组件</div>
+                            <div class="p-t-10px">组件</div>
                         </div>
                         <div class="action-item">
                             <el-icon :size="40">
                                 <svg-icon icon-class="b-ge" />
                             </el-icon>
-                            <div class="min-pt">表格</div>
+                            <div class="p-t-10px">表格</div>
                         </div>
                         <div class="action-item">
                             <el-icon :size="40">
                                 <svg-icon icon-class="t-biao" />
                             </el-icon>
-                            <div class="min-pt">图表</div>
+                            <div class="p-t-10px">图表</div>
                         </div>
                     </div>
                 </el-card>

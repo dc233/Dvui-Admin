@@ -1,6 +1,7 @@
-@import './vxe-table.scss'; // 覆盖vxe-table样式
-@import './common.scss'; // 全局样式
+@import './gloubal.scss'; // 全局样式
+
 @import './transition.scss'; // 过度动效
+
 :root {
     --main-bg-color: #f2f3f5;
     --dark-menu-bg: #001428;
@@ -13,8 +14,12 @@
 :after {
     box-sizing: border-box;
 }
-html {
+html,
+body {
+    width: 100% !important;
     height: 100%;
+    overflow: hidden;
+    margin: 0;
 }
 html.dark {
     --main-bg-color: #141414;
@@ -39,6 +44,8 @@ body {
     // overflow: hidden;
     // background-color: var(--el-bg-color);
     overflow-x: hidden;
+    overflow-y: auto;
+    max-width: none !important;
 }
 // 覆盖elementplus默认样式
 .vertical .el-menu-item.is-active:before {

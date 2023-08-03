@@ -232,7 +232,7 @@
                     style="width: 100%"
                     @click="clearStore"
                 >
-                    <el-icon class="mini-right" :size="15">
+                    <el-icon class="m-r-5px" :size="15">
                         <svg-icon icon-class="clear" />
                     </el-icon>
                     清空缓存并返回登录页</el-button

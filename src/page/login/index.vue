@@ -104,7 +104,9 @@
                         </el-input>
                     </el-form-item>
                     <div>
-                        <div class="flex-spacewent min-pb">
+                        <div
+                            class="flex flex-justify-between flex-items-center p-b-10px"
+                        >
                             <el-checkbox label="24小时免登录" size="large" />
                             <router-link
                                 v-slot="{ navigate }"
@@ -130,7 +132,7 @@
                         >
                     </el-form-item>
                     <el-form-item>
-                        <div class="flex-start">
+                        <div class="flex flex-justify-start flex-items-center">
                             还没有账号？
                             <router-link
                                 v-slot="{ navigate }"

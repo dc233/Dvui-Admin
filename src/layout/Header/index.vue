@@ -1,6 +1,6 @@
 <template>
     <header class="header_layout">
-        <div class="flex-spacewent header-content">
+        <div class="flex flex-justify-between flex-items-center header-content">
             <div v-if="!layoutMode" class="left-header" @click="switchMenu">
                 <el-icon :size="20">
                     <svg-icon
@@ -83,7 +83,9 @@
                     </el-button>
                 </div>
                 <el-dropdown>
-                    <div class="flex-spacewent header-avart">
+                    <div
+                        class="flex flex-justify-between flex-items-center header-avart"
+                    >
                         <el-avatar
                             :size="30"
                             src="https://p3-passport.byteacctimg.com/img/user-avatar/0b8f05ef7e7f67af2d09f86845ea5757~300x300.image"

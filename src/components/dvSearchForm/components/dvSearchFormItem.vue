@@ -125,6 +125,20 @@ function ElementComponents(el: string) {
     };
     return elementTypeMap[el];
 }
+
+const eleStyle = computed(() => {
+    const search = props.column.search;
+    if (search.el === 'el-date-picker') {
+        return {
+            width: '100%',
+            display: 'inline-flex',
+        };
+    } else {
+        return {
+            width: '100%',
+        };
+    }
+});
 </script>
 
 <template>
@@ -136,7 +150,7 @@ function ElementComponents(el: string) {
             searchParam: _searchParam,
             clearable,
         }"
-        style="width: 100%"
+        :style="eleStyle"
         v-model="_searchParam[column.search?.key ?? handleProp(column.prop!)]"
         :data="column.search?.el === 'el-tree-select' ? columnEnum : []"
         :options="['el-cascader', 'el-select-v2'].includes(column.search?.el!) ? columnEnum : []"

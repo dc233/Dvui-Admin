@@ -1,0 +1,19 @@
+// grid 布局
+.grid-layout {
+    display: grid;
+}
+// 三列布局等均分布
+.grid-three-layout {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0px, 1fr));
+    grid-template-rows: repeat(2, minmax(0px, 1fr));
+    gap: 4px;
+}
+
+// 字体颜色
+.text-primary {
+    color: var(--el-text-color-primary);
+}
+.text-regular {
+    color: var(--el-text-color-regular);
+}

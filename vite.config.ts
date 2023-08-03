@@ -17,6 +17,7 @@ import progress from 'vite-plugin-progress'; // 打包进度条‘
 import removeConsole from 'vite-plugin-remove-console'; // 生产环境去除console.log
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'; // 引用svg图标
 import UnoCSS from 'unocss/vite'; // 原子化CSS
+// import VueDevTools from 'vite-plugin-vue-devtools';
 const path = require('path');
 
 // https://vitejs.dev/config/;
@@ -37,6 +38,7 @@ export default defineConfig(({ command }): UserConfig => {
             },
         },
         plugins: [
+            // VueDevTools(),
             vue(),
             AutoImport({
                 resolvers: [ElementPlusResolver()],
@@ -46,6 +48,8 @@ export default defineConfig(({ command }): UserConfig => {
                     ElementPlusResolver({
                         // 自动引入修改主题色添加这一行，使用预处理样式
                         importStyle: 'sass',
+                        directives: true,
+                        version: '2.3.6',
                     }),
                 ],
             }),
@@ -76,7 +80,6 @@ export default defineConfig(({ command }): UserConfig => {
                 strategy: 'default',
                 customSplitting: {
                     'vue-vendor': ['vue', 'vue-router'],
-                    'vxe-table': ['vxe-table', 'xe-utils'],
                     elementplus: ['element-plus'],
                     composables: [/src\/composables/],
                     utils: [/src\/utils/],
@@ -128,7 +131,10 @@ export default defineConfig(({ command }): UserConfig => {
             preprocessorOptions: {
                 scss: {
                     // additionalData: '@import "./src/styles/variables";', // 全局css
-                    additionalData: `@use "@/styles/element/index.scss" as *;`,
+                    additionalData: [
+                        `@use "@/styles/element/index.scss" as *;`,
+                        // `@import "@/styles/variables.scss";`,
+                    ],
                     javascriptEnabled: true,
                 },
             },

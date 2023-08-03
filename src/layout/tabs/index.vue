@@ -113,6 +113,8 @@ const contextMenuStyle = reactive({
     left: '0px',
     top: '0px',
 });
+// tab栏排除的路由菜单
+const excludeRouter = ['Redirect', 'Login'];
 // 点击tab跳转路由
 const clickTab = (tabval: TabsPaneContext) => {
     const query = (tabval.props?.name as string).split('?')[1];
@@ -247,8 +249,8 @@ watch(
     (val) => {
         const { fullPath, meta, name } = val;
         console.log(val);
-        // 重定向不增加tabs列
-        if (name === 'Redirect') return;
+        //  排除tab栏不需要的路由
+        if (excludeRouter.includes(name)) return;
         currentTab.value = fullPath;
         savetabsRoutes({
             fullPath: fullPath,

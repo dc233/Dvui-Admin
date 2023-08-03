@@ -1,15 +1,15 @@
 <template>
     <div class="content-layout">
-        <el-row :gutter="10" class="mini-mb">
+        <el-row :gutter="10" class="m-b-10px">
             <el-col :span="6">
                 <MiniCard>
                     <template #header>
-                        <div class="f-16-b text-primary">访问量</div>
+                        <div class="f-16 font-bold text-primary">访问量</div>
                         <el-tag size="large">日</el-tag>
                     </template>
                     <template #content>
                         <dv-statistic :value="traffic"></dv-statistic>
-                        <div class="mini-mt">
+                        <div class="m-t-10px">
                             日同比 12.5%
                             <el-icon color="#5cb87a" :size="16">
                                 <svg-icon icon-class="up-one" />
@@ -29,12 +29,12 @@
             <el-col :span="6">
                 <MiniCard>
                     <template #header>
-                        <div class="f-16-b">销售额</div>
+                        <div class="f-16 font-bold">销售额</div>
                         <el-tag size="large" type="success">月</el-tag>
                     </template>
                     <template #content>
                         <dv-statistic :value="sales" unit="元"></dv-statistic>
-                        <div class="mini-mt">
+                        <div class="m-t-10px">
                             <el-progress :percentage="80" :stroke-width="15" />
                         </div>
                     </template>
@@ -47,12 +47,12 @@
             <el-col :span="6">
                 <MiniCard>
                     <template #header>
-                        <div class="f-16-b">订单量</div>
+                        <div class="f-16 font-bold">订单量</div>
                         <el-tag size="large" type="warning">周</el-tag>
                     </template>
                     <template #content>
                         <dv-statistic :value="2980"></dv-statistic>
-                        <div class="mini-mt">
+                        <div class="m-t-10px">
                             <el-progress
                                 :percentage="40"
                                 color="#e6a23c"
@@ -69,13 +69,13 @@
             <el-col :span="6">
                 <MiniCard>
                     <template #header>
-                        <div class="f-16-b">新增用户</div>
+                        <div class="f-16 font-bold">新增用户</div>
                         <el-tag size="large" type="danger">日</el-tag>
                     </template>
 
                     <template #content>
                         <dv-statistic :value="180" unit="位"></dv-statistic>
-                        <div class="mini-mt">
+                        <div class="m-t-10px">
                             日增长 3.5%
                             <el-icon color="#5cb87a" :size="16">
                                 <svg-icon icon-class="up-one" />
@@ -93,11 +93,11 @@
                 </MiniCard>
             </el-col>
         </el-row>
-        <el-row :gutter="10" class="mini-mb">
+        <el-row :gutter="10" class="m-b-10px">
             <el-col :span="16">
                 <el-card>
                     <div class="h-400px">
-                        <div ref="lineRef" class="wh-full"></div>
+                        <div ref="lineRef" class="w-100% h-100%"></div>
                     </div>
                 </el-card>
             </el-col>

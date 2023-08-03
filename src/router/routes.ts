@@ -213,6 +213,15 @@ export const staticRoutes: AuthRoute.Route[] = [
                 ],
             },
             {
+                path: '/devComponents/modal',
+                name: 'devComponents_modal',
+                component: 'self',
+                meta: {
+                    title: '函数弹框组件',
+                    icon: 'components',
+                },
+            },
+            {
                 path: '/devComponents/form',
                 name: 'devComponents_form',
                 component: 'multi',
@@ -227,7 +236,7 @@ export const staticRoutes: AuthRoute.Route[] = [
                         name: 'devComponents_form_imgupload',
                         component: 'self',
                         meta: {
-                            title: '上传',
+                            title: '图片上传',
                             icon: 'upload',
                         },
                     },

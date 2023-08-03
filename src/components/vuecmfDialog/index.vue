@@ -1,14 +1,7 @@
-<!--
- * @Descripttion: 弹窗组件封装
- * @version: 1.0
- * @Author: Dingcong
- * @Date: 2022年11月4日14:42:01
- * @LastEditors:
- * @LastEditTime:
--->
 <template>
-    <div ref="vuecmf_dlg_ref">
+    <div ref="vuecmf_dlg_ref" class="dvui-dialog">
         <el-dialog
+            v-bind="$attrs"
             destroy-on-close
             :center="center"
             :modal="show_modal"
@@ -19,6 +12,7 @@
             :fullscreen="fullscreen"
             :draggable="true"
             :width="width"
+            modal-class="ele-modalovery"
             :top="top"
             :append-to-body="append_to_body"
             :model-value="dialogVisible"
@@ -29,11 +23,20 @@
         >
             <template #header>
                 <div class="vuecmf_dlg_header">
-                    <div class="vuecmf_dlg_title">{{ title }}</div>
-                    <div class="min_btn" title="最小化" @click="minScreen">
+                    <div class="vuecmf_dlg_title" v-html="title"></div>
+                    <div
+                        v-if="show_minsrenn"
+                        class="min_btn"
+                        title="最小化"
+                        @click="minScreen"
+                    >
                         —
                     </div>
-                    <div class="screen_btn" @click="toggleScreen">
+                    <div
+                        v-if="show_fullscreen"
+                        class="screen_btn"
+                        @click="toggleScreen"
+                    >
                         <el-icon v-if="fullscreen == false" title="最大化"
                             ><full-screen
                         /></el-icon>
@@ -138,6 +141,14 @@ export default defineComponent({
             default: false,
         },
         auto_height: {
+            type: Boolean,
+            default: true,
+        },
+        show_fullscreen: {
+            type: Boolean,
+            default: true,
+        },
+        show_minsrenn: {
             type: Boolean,
             default: true,
         },
@@ -302,6 +313,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.ele-modalovery {
+    .el-overlay-dialog {
+        overflow: hidden !important;
+    }
+}
 .el-dialog__header {
     padding: 10px 15px 0 !important;
     position: relative !important;
@@ -353,5 +369,8 @@ export default defineComponent({
     padding: 0 15px !important;
     margin: 12px 0 !important;
     overflow-y: auto;
+}
+.vue-dialog {
+    padding-top: 20px;
 }
 </style>
