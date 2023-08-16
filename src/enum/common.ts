@@ -56,3 +56,11 @@ export enum EnumStorageKey {
     /* 系统主题 */
     'theme' = '__THEME__',
 }
+
+/** CRUD Dialog的标题 */
+
+export enum EnumAction {
+    'view' = '查看',
+    'edit' = '编辑',
+    'add' = '新增',
+}

@@ -82,7 +82,7 @@
             <el-table
                 ref="tableRef"
                 v-loading.fullscreen.lock="loading"
-                element-loading-text="Loading..."
+                element-loading-text="加载数据中..."
                 :data="data ?? tableData"
                 v-bind="$attrs"
                 :border="tableSetting.border"
@@ -204,8 +204,14 @@ export interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
     toolButton?: boolean; // 是否显示表格功能按钮 ==> 非必传（默认为true）
     searchCol?: number | Record<BreakPoint, number>; // 表格搜索项 每列占比配置 ==> 非必传 { xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }
 }
+
+interface DvTbaleSetting {
+    size: 'default' | 'small' | 'large';
+    stripe: boolean;
+    border: boolean;
+}
 // 表格配置参数
-const tableSetting = ref({
+const tableSetting = ref<DvTbaleSetting>({
     size: 'default',
     stripe: true,
     border: true,
@@ -257,7 +263,7 @@ const {
 );
 
 // 清空选中数据列表
-const clearSelection = () => tableRef.value!.clearSelection();
+const clearSelection = () => tableRef.value?.clearSelection();
 
 // 接受columns 并设置为响应式
 // const tableColumns = ref<ColumnProps[]>(props.columns);

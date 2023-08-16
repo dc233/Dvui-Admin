@@ -1,25 +1,5 @@
 <template>
     <div class="content-layout">
-        <!-- <Grid ref="gridRef" :collapsed="collapsed" :gap="[10, 10]">
-            <GrinItem>
-                <el-input placeholder="查询条件" />
-            </GrinItem>
-            <GrinItem>
-                <el-input placeholder="查询条件" />
-            </GrinItem>
-            <GrinItem>
-                <el-input placeholder="查询条件" />
-            </GrinItem>
-            <GrinItem>
-                <el-input placeholder="查询条件" />
-            </GrinItem>
-            <GrinItem>
-                <el-input placeholder="查询条件" />
-            </GrinItem>
-            <GrinItem>
-                <el-input placeholder="查询条件" />
-            </GrinItem>
-        </Grid> -->
         <DvTable
             ref="duTable"
             title="用户列表"
@@ -32,9 +12,7 @@
         >
             <!-- 按钮 -->
             <template #tableHeader="scope">
-                <el-button type="primary" @click="collapsed = true"
-                    >新增</el-button
-                >
+                <el-button type="primary" @click="handleAdd">新增</el-button>
                 <el-dropdown trigger="click">
                     <el-button :disabled="!scope.isSelected" class="ml-12px">
                         批量操作
@@ -72,13 +50,21 @@
             </template>
             <template #operation="scope">
                 <el-space wrap>
-                    <el-link :underline="false" type="primary">
+                    <el-link
+                        :underline="false"
+                        type="primary"
+                        @click="editDialog(scope.row)"
+                    >
                         <el-icon :size="14">
                             <svg-icon icon-class="edit" />
                         </el-icon>
                         编辑</el-link
                     >
-                    <el-link :underline="false" type="danger">
+                    <el-link
+                        :underline="false"
+                        type="danger"
+                        @click="handleDelet(scope.row)"
+                    >
                         <el-icon :size="14">
                             <svg-icon icon-class="delete" />
                         </el-icon>
@@ -95,30 +81,32 @@
             </template>
         </tableDialog> -->
         <DvDialog
-            v-model:model_value="collapsed"
+            ref="duDialog"
+            v-model:model_value="dialogVisible"
+            :btn_loading="dialogLoading"
             :component="TestModal"
-            :width="600"
-            title="新增用户"
-            :auto_height="false"
+            width="600"
+            :title="dialogTitle"
+            @sucess-form-validation="handleSave"
         />
     </div>
 </template>
 
-<script setup lang="tsx" name="BaseTable">
+<script setup lang="tsx" name="Basetable">
 import { ref, reactive } from 'vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage, dayjs } from 'element-plus';
 import DvTable from '@/components/dvTable/index.vue';
-import Grid from '@/components/dvGrid/index.vue';
-import GrinItem from '@/components/dvGrid/components/GridItem.vue';
 import { fetchGetdata, fetchGetStatus } from '@/api/login';
 import { useHandleData } from '@/hook/useHandleData';
+import useCRUD from '@/hook/useCRUD';
 import DvDialog from '@/components/dvDialog/index.vue';
 import TestModal from './testModal.vue';
 // import tableDialog from '@/components/vuecmfDialog/index.vue';
-const collapsed = ref(false);
 // 表格ref
 const duTable = ref();
-// 表格初始化参数
+// 弹框ref
+const duDialog = ref();
+// 表格默认查询初始化参数
 const initParam = reactive({});
 // 表格内容
 const columns = [
@@ -171,7 +159,7 @@ const columns = [
         fieldNames: { label: 'name', value: 'val' },
         isShow: true,
         search: {
-            key: 'stau',
+            key: 'status',
             el: 'el-select',
             props: { placeholder: '请选择状态', filterable: true },
             order: 0,
@@ -196,7 +184,29 @@ const columns = [
         search: {
             key: 'create-time',
             el: 'el-date-picker',
-            props: { type: 'datetimerange' },
+            defaultValue: [
+                dayjs().subtract(7, 'day').startOf('day').toDate(),
+                dayjs().endOf('day').toDate(),
+            ],
+            props: {
+                type: 'datetimerange',
+                defaultTime: [
+                    new Date(2000, 1, 1, 0, 0, 0),
+                    new Date(2000, 2, 1, 23, 59, 59),
+                ],
+                clearable: true,
+                // 限制所选时间
+                disabledDate: (time) => {
+                    // 当月第一天
+                    const currentMonthStart = dayjs().startOf('month').toDate();
+                    // 当月最后一天
+                    const currentMonthEnd = dayjs().endOf('month').toDate();
+                    return (
+                        time.getTime() < currentMonthStart ||
+                        time.getTime() > currentMonthEnd
+                    );
+                },
+            },
         },
         render: (scope) => {
             return (
@@ -219,6 +229,7 @@ const columns = [
         search: {
             el: 'el-date-picker',
             props: { type: 'datetime', placeholder: '请选择时间' },
+            defaultValue: new Date(),
         },
         render: (scope) => {
             return (
@@ -264,6 +275,27 @@ const columns = [
         isShow: true,
     },
 ];
+// CRUD
+const {
+    dialogVisible,
+    dialogTitle,
+    dialogLoading,
+    handleAdd,
+    handleEdit,
+    handleSave,
+    handleDelet,
+} = useCRUD({
+    name: '用户',
+    doCreate: fetchGetdata,
+    doDelete: fetchGetdata,
+    doUpdate: fetchGetdata,
+    refresh: () => duTable.value?.getTableList(),
+});
+const editDialog = (val: object) => {
+    console.log(val);
+    handleEdit();
+    duDialog.value.editDialog(val);
+};
 // 表格清除选中
 const clearAllCheckbox = () => {
     duTable.value!.clearSelection();

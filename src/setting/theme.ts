@@ -17,7 +17,7 @@ export const themeColorList = [
 
 export const deflaultSetting = {
     theme: getTheme() || 'light',
-    layoutMode: getThemeLayout() || 'lcr', // 左右模式 ltr  上下模式 ttb  分栏模式 lcr
+    layoutMode: getThemeLayout() || 'vertical',
     themeColor: getThemeColor() || themeColorList[1],
     animateMode: getAnimateType() || 'fade-slide',
 };

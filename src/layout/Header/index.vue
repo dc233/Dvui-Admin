@@ -21,7 +21,7 @@
             </div>
             <div class="right-header pr-20px">
                 <div class="header-circle">
-                    <el-button circle>
+                    <el-button circle dark :color="btnColor">
                         <el-icon
                             color="var(--el-text-color-regular)"
                             :size="14"
@@ -31,38 +31,8 @@
                     </el-button>
                 </div>
                 <div class="header-circle">
-                    <el-tooltip
-                        class="box-item"
-                        effect="dark"
-                        content="Bottom Center prompts info"
-                        placement="bottom"
-                    >
-                        <template #content>
-                            {{
-                                gobalStore.theme === 'dark'
-                                    ? '点击切换为亮色模式'
-                                    : '点击切换为暗黑模式'
-                            }}</template
-                        >
-                        <el-button circle @click="switchTheme()">
-                            <el-icon
-                                color="var(--el-text-color-regular)"
-                                :size="14"
-                            >
-                                <svg-icon
-                                    :icon-class="
-                                        gobalStore.theme === 'dark'
-                                            ? 'dark'
-                                            : 'day'
-                                    "
-                                />
-                            </el-icon>
-                        </el-button>
-                    </el-tooltip>
-                </div>
-                <div class="header-circle">
                     <el-badge is-dot class="item">
-                        <el-button circle>
+                        <el-button circle dark :color="btnColor">
                             <el-icon
                                 color="var(--el-text-color-regular)"
                                 :size="14"
@@ -73,7 +43,12 @@
                     </el-badge>
                 </div>
                 <div class="header-circle">
-                    <el-button circle @click="openDrawer">
+                    <el-button
+                        circle
+                        dark
+                        :color="btnColor"
+                        @click="openDrawer"
+                    >
                         <el-icon
                             color="var(--el-text-color-regular)"
                             :size="14"
@@ -123,9 +98,8 @@ import { userStore } from '@/store/user';
 import { ElMessageBox } from 'element-plus';
 import { useBasicLayout } from '@/composables/layouts';
 import LevelSidebar from '../sidebar/levelSideBar.js';
-import { useGlobaltheme } from '@/hook';
+
 const { activePadding } = useBasicLayout();
-const { switchTheme } = useGlobaltheme();
 const gobalStore = useGlobalStore();
 const user = userStore();
 const layoutMode = computed(() => gobalStore.layoutMode === 'transverse');
@@ -166,6 +140,27 @@ const textColor = computed(() => {
         return '#fff';
     } else {
         return 'var(--el-text-color-primary)';
+    }
+});
+// 按钮背景颜色
+const btnColor = computed(() => {
+    if (gobalStore.theme === 'auto') {
+        if (
+            gobalStore.layoutMode === 'classic' &&
+            gobalStore.preferScolorScheme === 'light'
+        ) {
+            return '#fff';
+        } else {
+            return '';
+        }
+    } else if (gobalStore.theme === 'dark') {
+        return '';
+    } else {
+        if (gobalStore.layoutMode === 'classic') {
+            return '#fff';
+        } else {
+            return '';
+        }
     }
 });
 </script>

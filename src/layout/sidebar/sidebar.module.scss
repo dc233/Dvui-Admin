@@ -1,4 +1,14 @@
 @import '@/styles/variables.scss';
+.sideclassicWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    height: 100%;
+    box-sizing: border-box;
+    z-index: 99;
+    user-select: none;
+}
 .sideWrapper {
     position: fixed;
     top: 0;
@@ -8,6 +18,7 @@
     box-sizing: border-box;
     z-index: 99;
     user-select: none;
+    border-right: 1px solid var(--el-menu-border-color);
 }
 .openStatus {
     width: $menuWidth;
@@ -43,14 +54,11 @@
     line-height: $logoHeight;
     padding: 0 20px;
     background-color: var(--el-bg-color);
-    border-right: 1px solid var(--el-menu-border-color);
+    // border-right: 1px solid var(--el-menu-border-color);
     border-bottom: 1px solid var(--el-menu-border-color);
     box-sizing: border-box;
     font-size: 16px;
     font-weight: 600;
-}
-.darkTabSplitTabwrapper {
-    background-color: #1e1e1e !important;
 }
 .tabSplitTabwrapper {
     position: relative;
@@ -61,7 +69,8 @@
     max-width: 65px;
     overflow: hidden;
     height: 100%;
-    background-color: #222b45;
+    border-right: var(--tabsidebar-border);
+    background-color: var(--classic-bg);
 }
 
 .tabSplitMenuWrapper {

@@ -267,6 +267,7 @@ watch(
 watch(
     tabsRoutes,
     (val) => {
+        // 判断tabs标签缓存
         console.log(val);
         setSession('__tabsroute__', val);
     },

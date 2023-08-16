@@ -31,8 +31,10 @@ const activePath = ref(route.fullPath);
 const menuBg = computed(() => {
     if (gobalStore.theme === 'light') {
         return 'var(--el-bg-color)';
-    } else {
+    } else if (gobalStore.theme === 'dark') {
         return 'var(--dark-menu-bg)';
+    } else {
+        return 'var(--el-bg-color)';
     }
 });
 const activBg = ref('var(--el-color-primary-light-8)');
@@ -57,6 +59,7 @@ watch(
 .horizontal-menue {
     height: calc(100% - #{$logoHeight});
     .el-menu {
+        border-right: none;
         .el-menu-item:hover {
             color: var(--el-menu-active-color);
             background-color: transparent;

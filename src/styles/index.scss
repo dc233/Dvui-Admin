@@ -8,6 +8,8 @@
     --card-bg: #fff;
     --card-line: #fff;
     --classic-bg: #001428;
+    // 分栏模式下右边框线条
+    --tabsidebar-border: none;
 }
 *,
 :before,
@@ -27,6 +29,7 @@ html.dark {
     --card-bg: #1d1e1f;
     --card-line: #414243;
     --classic-bg: #141414;
+    --tabsidebar-border: 1px solid #414243;
 }
 
 html.dark > .tabSplitTabwrapper {

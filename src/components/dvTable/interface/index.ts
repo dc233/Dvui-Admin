@@ -16,17 +16,18 @@ export interface EnumProps {
 export type TypeProps = 'index' | 'selection' | 'expand';
 
 export type SearchType =
-    | 'input'
-    | 'input-number'
-    | 'select'
-    | 'select-v2'
-    | 'tree-select'
-    | 'cascader'
-    | 'date-picker'
-    | 'time-picker'
-    | 'time-select'
-    | 'switch'
-    | 'slider';
+    | 'el-input'
+    | 'el-input-number'
+    | 'el-select'
+    | 'el-select-v2'
+    | 'el-tree-select'
+    | 'el-cascader'
+    | 'el-date-picker'
+    | 'el-time-picker'
+    | 'el-time-select'
+    | 'el-switch'
+    | 'el-slider'
+    | 'el-option';
 
 export type SearchRenderScope = {
     searchParam: { [key: string]: any };

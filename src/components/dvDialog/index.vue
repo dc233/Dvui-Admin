@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Component } from 'vue';
-import { ref, computed, unref } from 'vue';
+import { ref, computed, unref, nextTick } from 'vue';
 import VuecmfDialog from '@/components/vuecmfDialog/index.vue';
 
 export interface DvProps {
@@ -8,28 +8,41 @@ export interface DvProps {
     footer?: boolean;
     component?: Component;
     model_value?: boolean;
+    btn_loading?: boolean;
 }
 const componentRef = ref<any>();
-const emit = defineEmits(['cancel', 'confirm', 'update:model_value']);
+const emit = defineEmits([
+    'cancel',
+    'confirm',
+    'update:model_value',
+    'sucessFormValidation',
+]);
 
 const props = withDefaults(defineProps<DvProps>(), {
     footer: true,
     component: undefined,
     model_value: false,
+    btn_loading: false,
 });
-// const localProps = computed(() => {
-//     return {
-//         title: props.title,
-//         model_value: unref(props.model_value),
-//         onCancel: handleCancel,
-//     };
-// });
+
 const handleConfirm = () => {
+    // 验证表单函数
     const submit: () => Promise<any> =
         componentRef.value?.submit || (() => Promise.resolve(true));
-    submit().then((data) => emit('confirm', data));
+    submit()
+        .then((data) => {
+            // 成功后执行异步语句
+            emit('sucessFormValidation', data);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
 };
-
+const editDialog = (val: object) => {
+    nextTick(() => {
+        componentRef.value?.editFormdata(val);
+    });
+};
 const handleCancel = () => {
     emit('update:model_value', false);
 };
@@ -37,6 +50,10 @@ const handleCancel = () => {
 const updateVisible = (val: boolean) => {
     emit('update:model_value', val);
 };
+
+defineExpose({
+    editDialog,
+});
 </script>
 
 <template>
@@ -56,7 +73,12 @@ const updateVisible = (val: boolean) => {
         <template #footer>
             <el-space wrap>
                 <el-button @click="handleCancel">取消</el-button>
-                <el-button type="primary" click="handleConfirm">确定</el-button>
+                <el-button
+                    type="primary"
+                    :loading="btn_loading"
+                    @click="handleConfirm"
+                    >确定</el-button
+                >
             </el-space>
         </template>
     </VuecmfDialog>

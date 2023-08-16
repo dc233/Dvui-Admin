@@ -6,6 +6,7 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ColSetting: typeof import('./src/components/dvTable/components/ColSetting.vue')['default']
+    DvCropper: typeof import('./src/components/dvCropper/index.vue')['default']
     DvDialog: typeof import('./src/components/dvDialog/index.vue')['default']
     DvGrid: typeof import('./src/components/dvGrid/index.vue')['default']
     DvPageSplit: typeof import('./src/components/dvPageSplit/index.vue')['default']
@@ -39,6 +40,7 @@ declare module '@vue/runtime-core' {
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
     ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElImageViewer: typeof import('element-plus/es')['ElImageViewer']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElLink: typeof import('element-plus/es')['ElLink']
@@ -65,7 +67,11 @@ declare module '@vue/runtime-core' {
     ElTimeline: typeof import('element-plus/es')['ElTimeline']
     ElTimelineItem: typeof import('element-plus/es')['ElTimelineItem']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
+    File: typeof import('./src/components/dvUpload/file.vue')['default']
     GridItem: typeof import('./src/components/dvGrid/components/GridItem.vue')['default']
+    Img: typeof import('./src/components/dvUpload/img.vue')['default']
+    Imgs: typeof import('./src/components/dvUpload/imgs.vue')['default']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
     MiniCard: typeof import('./src/components/miniCard/index.vue')['default']
     Pagination: typeof import('./src/components/dvTable/components/Pagination.vue')['default']

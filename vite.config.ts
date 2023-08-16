@@ -61,6 +61,12 @@ export default defineConfig(({ command }): UserConfig => {
                         esModule: true,
                         // 按需引入 css
                         resolveStyle: (name) => {
+                            const exclude = [
+                                'dayjs',
+                                'form-context-key',
+                                'form-item-context-key',
+                            ];
+                            if (exclude.includes(name)) return;
                             return `element-plus/theme-chalk/${name}.css`;
                         },
                     },

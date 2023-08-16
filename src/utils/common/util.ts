@@ -1,4 +1,4 @@
-import { isArray } from './typeof';
+import { isArray, isObject } from './typeof';
 import { FieldNamesProps } from '@/components/dvTable/interface';
 /* 千分符 */
 export function groupSeparator(num: number | string) {
@@ -100,4 +100,35 @@ export function findItemNested(
                 children,
             );
     }, null);
+}
+/**
+ * @description 对参数对象，并根据参数类型进行相应的转换
+ * @param {object}
+ * @returns { object}
+ */
+
+export function convertParams(params: object) {
+    // 判断params是否是对象
+    if (!isObject(params)) return;
+    // 遍历需要转换的数据
+    // for (const key in params) {
+    //     if (params[key] === 'time') {
+
+    //     }
+    // }
+}
+/**
+ * @description 生成唯一 uuid
+ * @returns {String}
+ */
+export function generateUUID() {
+    let uuid = '';
+    for (let i = 0; i < 32; i++) {
+        const random = (Math.random() * 16) | 0;
+        if (i === 8 || i === 12 || i === 16 || i === 20) uuid += '-';
+        uuid += (i === 12 ? 4 : i === 16 ? (random & 3) | 8 : random).toString(
+            16,
+        );
+    }
+    return uuid;
 }

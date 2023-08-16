@@ -18,90 +18,44 @@
                 font-weight: 500;
                 color: #646464;
             }
-            .lds-roller {
-                display: inline-block;
-                position: relative;
-                width: 80px;
-                height: 80px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            .lds-roller div {
-                animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-                transform-origin: 40px 40px;
-            }
-            .lds-roller div:after {
-                content: ' ';
+            .loader {
+                width: 8px;
+                height: 40px;
+                border-radius: 4px;
                 display: block;
+                margin: 20px auto;
+                position: relative;
+                background: currentColor;
+                color: #409eff;
+                box-sizing: border-box;
+                animation: animloader 0.3s 0.3s linear infinite alternate;
+            }
+
+            .loader::after,
+            .loader::before {
+                content: '';
+                width: 8px;
+                height: 40px;
+                border-radius: 4px;
+                background: currentColor;
                 position: absolute;
-                width: 7px;
-                height: 7px;
-                border-radius: 50%;
-                background: #409eff;
-                margin: -4px 0 0 -4px;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 20px;
+                box-sizing: border-box;
+                animation: animloader 0.3s 0.45s linear infinite alternate;
             }
-            .lds-roller div:nth-child(1) {
-                animation-delay: -0.036s;
+            .loader::before {
+                left: -20px;
+                animation-delay: 0s;
             }
-            .lds-roller div:nth-child(1):after {
-                top: 63px;
-                left: 63px;
-            }
-            .lds-roller div:nth-child(2) {
-                animation-delay: -0.072s;
-            }
-            .lds-roller div:nth-child(2):after {
-                top: 68px;
-                left: 56px;
-            }
-            .lds-roller div:nth-child(3) {
-                animation-delay: -0.108s;
-            }
-            .lds-roller div:nth-child(3):after {
-                top: 71px;
-                left: 48px;
-            }
-            .lds-roller div:nth-child(4) {
-                animation-delay: -0.144s;
-            }
-            .lds-roller div:nth-child(4):after {
-                top: 72px;
-                left: 40px;
-            }
-            .lds-roller div:nth-child(5) {
-                animation-delay: -0.18s;
-            }
-            .lds-roller div:nth-child(5):after {
-                top: 71px;
-                left: 32px;
-            }
-            .lds-roller div:nth-child(6) {
-                animation-delay: -0.216s;
-            }
-            .lds-roller div:nth-child(6):after {
-                top: 68px;
-                left: 24px;
-            }
-            .lds-roller div:nth-child(7) {
-                animation-delay: -0.252s;
-            }
-            .lds-roller div:nth-child(7):after {
-                top: 63px;
-                left: 17px;
-            }
-            .lds-roller div:nth-child(8) {
-                animation-delay: -0.288s;
-            }
-            .lds-roller div:nth-child(8):after {
-                top: 56px;
-                left: 12px;
-            }
-            @keyframes lds-roller {
+
+            @keyframes animloader {
                 0% {
-                    transform: rotate(0deg);
+                    height: 48px;
                 }
                 100% {
-                    transform: rotate(360deg);
+                    height: 4px;
                 }
             }
         </style>
@@ -109,7 +63,7 @@
     <body>
         <div id="app">
             <div class="loading-layout">
-                <div class="lds-roller">
+                <!-- <div class="lds-roller">
                     <div></div>
                     <div></div>
                     <div></div>
@@ -118,11 +72,12 @@
                     <div></div>
                     <div></div>
                     <div></div>
-                </div>
-                <div class="loading-title">加载中...</div>
+                </div> -->
+                <span class="loader"></span>
+                <div class="loading-title"></div>
             </div>
         </div>
         <script type="module" src="/src/main.ts"></script>
-        <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/svg_9872_60.eb060b32542b5fc680f3082c2e8edb96.js"></script>
+        <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/svg_9872_63.f990a94f5cdabaf8a161b154d89930cc.js"></script>
     </body>
 </html>

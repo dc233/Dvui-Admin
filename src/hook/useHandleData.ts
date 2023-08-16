@@ -12,7 +12,7 @@ import { HandleData } from './interface';
 export const useHandleData = (
     api: (params: any) => Promise<any>,
     params: any = {},
-    message: string,
+    message?: string,
     confirmType: HandleData.MessageType = 'warning',
 ) => {
     return new Promise((resolve, reject) => {
@@ -26,7 +26,7 @@ export const useHandleData = (
             if (!res) return reject(false);
             ElMessage({
                 type: 'success',
-                message: `${message}成功!`,
+                message: res.msg ?? '操作成功',
             });
             resolve(true);
         });

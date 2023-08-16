@@ -142,14 +142,7 @@ export default defineComponent({
                         : style.fllopenStatus,
                 ]}
             >
-                <div
-                    class={[
-                        style.tabSplitTabwrapper,
-                        this.gobalStore.theme === 'dark'
-                            ? style.darkTabSplitTabwrapper
-                            : '',
-                    ]}
-                >
+                <div class={[style.tabSplitTabwrapper]}>
                     <div class={style.logo}>
                         <img src={logo} alt="" />
                     </div>

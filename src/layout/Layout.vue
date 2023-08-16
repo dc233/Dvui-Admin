@@ -11,15 +11,13 @@
             <TabSplitSidebar />
         </template>
         <!-- 左右布局 -->
-        <template
-            v-if="
-                gobalStore.layoutMode === 'vertical' ||
-                gobalStore.layoutMode === 'classic'
-            "
-        >
+        <template v-if="gobalStore.layoutMode === 'vertical'">
             <SideBar />
         </template>
-
+        <!-- 经典布局 -->
+        <template v-if="gobalStore.layoutMode === 'classic'">
+            <classicSidebar />
+        </template>
         <!-- 主界面布局 -->
         <Main />
 
@@ -31,10 +29,11 @@
 <script setup lang="ts">
 import Header from './Header/index.vue';
 import Main from './Main.vue';
-import SideBar from './sidebar/SideBar.js';
+import SideBar from './sidebar/SideBar';
 import Tabs from './tabs/index.vue';
 import SettingDrawer from './settingDrawer/index.vue';
-import TabSplitSidebar from './sidebar/TabSplitSideBar.js';
+import TabSplitSidebar from './sidebar/TabSplitSideBar';
+import classicSidebar from './sidebar/classicSideBar';
 import { useGlobalStore } from '@/store/global';
 
 const gobalStore = useGlobalStore();

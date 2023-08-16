@@ -109,9 +109,8 @@ export function handleBackendError(
     const error: Service.RequestError = {
         type: 'backend',
         code: backendResult[codeKey],
-        msg: backendResult[msgKey],
+        msg: backendResult[msgKey] || backendResult['desc'],
     };
-
     showErrorMsg(error);
 
     return error;

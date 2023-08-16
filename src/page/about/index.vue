@@ -1,5 +1,5 @@
 <template>
-    <el-main>
+    <div class="content-layout">
         <el-row :gutter="15">
             <el-col :lg="24">
                 <el-card shadow="never" class="aboutTop">
@@ -31,7 +31,7 @@
                 </el-card>
             </el-col>
         </el-row>
-    </el-main>
+    </div>
 </template>
 
 <script setup lang="ts" name="about">

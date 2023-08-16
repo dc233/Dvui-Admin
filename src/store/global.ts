@@ -5,11 +5,12 @@ export const useGlobalStore = defineStore({
     id: 'global',
     state: () => {
         return {
-            theme: deflaultSetting.theme, // 主题模式
+            theme: 'auto', // 主题模式
             iScollapse: false, // 折叠菜单
             showDrawer: false, // 显示隐藏设置
             menuTheme: 'light', // 菜单主题
             layoutMode: deflaultSetting.layoutMode, // 布局模式
+            preferScolorScheme: '', // 用户系统默认主题颜色
             color: deflaultSetting.themeColor, // 系统默认颜色
             page: {
                 animate: true,
@@ -82,6 +83,10 @@ export const useGlobalStore = defineStore({
         // 切换页面缓存 打开 | 关闭
         uodataCachepage(val: boolean) {
             this.keepAlive = val;
+        },
+        // 监听用户系统默认设置的主题 windows mac
+        uopataPrefersColorScheme(val: string) {
+            this.preferScolorScheme = val;
         },
     },
 });

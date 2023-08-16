@@ -1,6 +1,4 @@
-import { ref } from 'vue';
-import { useGlobalStore } from '@/store/global';
-import { useDark, useToggle } from '@vueuse/core';
+import { ref, watchEffect } from 'vue';
 import { setTheme } from '@/utils';
 // hook 改变主题颜色
 export function usePrimaryColor(color: string) {
@@ -64,19 +62,41 @@ export function useLoading(initValue = false) {
 
 // 改变明亮暗黑模式
 export function useGlobaltheme() {
-    const gobalStore = useGlobalStore();
-    // 切换暗黑模式
-    const isDark = useDark();
-    const toggleDark = useToggle(isDark);
-    function switchTheme() {
-        const { value } = isDark;
-        const theme = value ? 'light' : 'dark';
-        toggleDark();
-        gobalStore.updateTheme(theme);
-        setTheme(theme);
+    const element = document.querySelector('html');
+    function switchTheme(val: string) {
+        if (val === 'auto') {
+            element?.setAttribute('class', 'auto');
+            setTheme(val);
+        } else if (val === 'light') {
+            element?.setAttribute('class', 'light');
+            setTheme(val);
+        } else {
+            element?.setAttribute('class', 'dark');
+            setTheme(val);
+        }
     }
     return {
-        gobalStore,
         switchTheme,
     };
+}
+
+/**
+ * 监听系统主题hook函数
+ */
+export function useTheme() {
+    // 创建媒体查询对象
+    const themeMedia = window.matchMedia('(prefers-color-scheme: light)');
+    // 根据查询结果设置对应的值
+    const theme = ref(themeMedia.matches ? 'light' : 'dark');
+    const onChange = (e: MediaQueryListEvent) =>
+        (theme.value = e.matches ? 'light' : 'dark');
+    watchEffect((onCleanup) => {
+        // 监听事件
+        if (typeof themeMedia.addEventListener === 'function') {
+            themeMedia.addEventListener('change', onChange);
+        }
+        // 并且在退出时取消监听
+        onCleanup(() => themeMedia.removeEventListener('change', onChange));
+    });
+    return theme;
 }

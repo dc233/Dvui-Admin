@@ -1,5 +1,5 @@
 <script setup lang="ts" name="dvSearchFormItem">
-import { computed, inject, ref } from 'vue';
+import { App, computed, inject, ref } from 'vue';
 import { handleProp } from '@/utils';
 import { ColumnProps } from '@/components/dvTable/interface';
 import {
@@ -12,6 +12,8 @@ import {
     ElTreeSelect,
 } from 'element-plus';
 
+import { SearchType } from '@/components/dvTable/interface';
+type SFCWithInstall<T> = T & { install(app: App): void };
 interface SearchFormItem {
     column: ColumnProps;
     searchParam: { [key: string]: any };
@@ -35,7 +37,7 @@ const enumMap = inject('enumMap', ref(new Map()));
 const columnEnum = computed(() => {
     let enumData = enumMap.value.get(props.column.prop);
     if (!enumData) return [];
-    if (props.column.search?.el === 'select-v2' && props.column.fieldNames) {
+    if (props.column.search?.el === 'el-select-v2' && props.column.fieldNames) {
         enumData = enumData.map((item: { [key: string]: any }) => {
             return {
                 ...item,
@@ -54,14 +56,14 @@ const handleSearchProps = computed(() => {
     const children = fieldNames.value.children;
     const searchEl = props.column.search?.el;
     let searchProps = props.column.search?.props ?? {};
-    if (searchEl === 'tree-select') {
+    if (searchEl === 'el-tree-select') {
         searchProps = {
             ...searchProps,
             props: { ...searchProps.props, label, children },
             nodeKey: value,
         };
     }
-    if (searchEl === 'cascader') {
+    if (searchEl === 'el-cascader') {
         searchProps = {
             ...searchProps,
             props: { ...searchProps.props, label, value, children },
@@ -112,23 +114,23 @@ const is = computed(() => {
     };
 
     // 默认 input 控件
-    let type = 'el-input';
+    // let type = 'el-input';
 
     // 其他控件判断逻辑
-    return elementTypeMap[`${search?.el}`];
+    return elementTypeMap[`${search?.el as keyof typeof elementTypeMap}`];
 });
 
 // 渲染可控的Element-plus组件
-function ElementComponents(el: string) {
+function ElementComponents(el: SearchType) {
     const elementTypeMap = {
         'el-option': ElOption,
     };
-    return elementTypeMap[el];
+    return elementTypeMap[el as keyof typeof elementTypeMap];
 }
 
 const eleStyle = computed(() => {
     const search = props.column.search;
-    if (search.el === 'el-date-picker') {
+    if (search?.el === 'el-date-picker') {
         return {
             width: '100%',
             display: 'inline-flex',
@@ -150,8 +152,8 @@ const eleStyle = computed(() => {
             searchParam: _searchParam,
             clearable,
         }"
-        :style="eleStyle"
         v-model="_searchParam[column.search?.key ?? handleProp(column.prop!)]"
+        :style="eleStyle"
         :data="column.search?.el === 'el-tree-select' ? columnEnum : []"
         :options="['el-cascader', 'el-select-v2'].includes(column.search?.el!) ? columnEnum : []"
     >

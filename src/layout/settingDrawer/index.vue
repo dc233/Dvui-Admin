@@ -117,6 +117,94 @@
                     </div>
                 </el-tooltip>
             </div>
+            <el-divider content-position="center">页面设置</el-divider>
+            <div class="reactive flex flex-justify-around">
+                <el-tooltip
+                    effect="dark"
+                    content="浅色模式"
+                    placement="top"
+                    :show-after="200"
+                >
+                    <div
+                        :class="[
+                            'radio-item-wrap',
+                            {
+                                'ispage-active': gobalStore.theme == 'light',
+                            },
+                        ]"
+                        @click="switchColorSchenme('light')"
+                    >
+                        <div class="mode-skeleton-light">
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                        </div>
+                        <el-icon v-if="gobalStore.theme == 'light'">
+                            <svg-icon icon-class="check-one" />
+                        </el-icon>
+                    </div>
+                </el-tooltip>
+                <el-tooltip
+                    effect="dark"
+                    content="深色模式"
+                    placement="top"
+                    :show-after="200"
+                >
+                    <div
+                        :class="[
+                            'radio-item-wrap radio-item-wrap-dark',
+                            { 'ispage-active': gobalStore.theme == 'dark' },
+                        ]"
+                        @click="switchColorSchenme('dark')"
+                    >
+                        <div class="mode-skeleton-dark">
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                        </div>
+                        <el-icon v-if="gobalStore.theme == 'dark'">
+                            <svg-icon icon-class="check-one" />
+                        </el-icon>
+                    </div>
+                </el-tooltip>
+                <el-tooltip
+                    effect="dark"
+                    content="跟随系统"
+                    placement="top"
+                    :show-after="200"
+                >
+                    <div
+                        :class="[
+                            'radio-item-wrap',
+                            'flex',
+                            { 'ispage-active': gobalStore.theme == 'auto' },
+                        ]"
+                        @click="switchColorSchenme('auto')"
+                    >
+                        <div class="mode-skeleton-light flex-auto p-2px">
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                        </div>
+                        <div class="mode-skeleton-dark flex-auto p-2px">
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                            <div class="skeleton-item"></div>
+                        </div>
+                        <el-icon v-if="gobalStore.theme == 'auto'">
+                            <svg-icon icon-class="check-one" />
+                        </el-icon>
+                    </div>
+                </el-tooltip>
+            </div>
             <!-- <div style="margin-top: 60px">
                 <el-divider content-position="center">系统主题</el-divider>
                 <div class="colors-wrapper">
@@ -246,43 +334,15 @@
 import { reactive, ref } from 'vue';
 import { useGlobalStore } from '@/store/global';
 import { userStore } from '@/store/user';
-import StyleExample from './StyleExample.vue';
 import { themeColorList } from '@/setting/theme';
-import { usePrimaryColor } from '@/hook/index';
+import { usePrimaryColor, useGlobaltheme } from '@/hook/index';
 import { setThemeColor, setThemeLayout, setAnimateType } from '@/utils';
+
 const gobalStore = useGlobalStore();
 const user = userStore();
-
+const { switchTheme } = useGlobaltheme();
 // 主题颜色预制
 const defaultColor = ref(themeColorList);
-const layoutExampleList = reactive([
-    {
-        leftBg: '#000000',
-        rightTopBg: '#d4d4d4',
-        rightBottomBg: '#d4d4d4',
-        checked: true,
-        value: 'ltr',
-        tipText: '左右',
-    },
-    {
-        leftBg: '#d4d4d4',
-        rightTopBg: '#ffffff',
-        rightBottomBg: '#d4d4d4',
-        checked: false,
-        value: 'ttb',
-        class: 'extra-class',
-        tipText: '上下',
-    },
-    {
-        leftBg: '#000000',
-        rightTopBg: '#d4d4d4',
-        rightBottomBg: '#d4d4d4',
-        checked: false,
-        value: 'lcr',
-        class: 'extra-class-1',
-        tipText: '分栏',
-    },
-]);
 
 const settings = reactive({
     animate: gobalStore.page.animate,
@@ -304,11 +364,16 @@ const switchLayoutmode = (val: string) => {
     gobalStore.updateLayoutmode(val);
     setThemeLayout(val);
 };
-// 改变系统主题颜色
+// 改变DVUI系统主题颜色
 const switchColor = (val: string) => {
     gobalStore.updateColor(val);
     usePrimaryColor(val);
     setThemeColor(val);
+};
+// 改变DVUI系统深浅色模式切换
+const switchColorSchenme = (val: string) => {
+    switchTheme(val);
+    gobalStore.updateTheme(val);
 };
 // 禁用系统动画
 const animateChange = (value: boolean): void => {

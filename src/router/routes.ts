@@ -192,14 +192,8 @@ export const staticRoutes: AuthRoute.Route[] = [
                         meta: {
                             title: '普通表格',
                             icon: 'table-file',
-                            auth: true,
+                            keepAlive: false,
                         },
-                        children: [
-                            {
-                                name: '新增',
-                                action: 'add',
-                            },
-                        ],
                     },
                     {
                         path: '/devComponents/table/advacetable',
@@ -242,6 +236,15 @@ export const staticRoutes: AuthRoute.Route[] = [
                     },
                 ],
             },
+            {
+                path: '/devComponents/resizebox',
+                name: 'devComponents_resizebox',
+                component: 'self',
+                meta: {
+                    title: '伸缩框',
+                    icon: 'components',
+                },
+            },
         ],
     },
     {
@@ -260,14 +263,7 @@ export const staticRoutes: AuthRoute.Route[] = [
                 meta: {
                     title: '菜单权限',
                     icon: 'hamburger-button',
-                    auth: true,
                 },
-                children: [
-                    {
-                        name: '新增',
-                        action: 'add',
-                    },
-                ],
             },
             {
                 path: '/authority/buttonAuth',

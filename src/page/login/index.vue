@@ -40,19 +40,6 @@
         <div class="login-rigth">
             <div class="login-config">
                 <el-space wrap>
-                    <el-button circle>
-                        <el-icon
-                            color="var(--el-text-color-regular)"
-                            :size="14"
-                            @click="switchTheme()"
-                        >
-                            <svg-icon
-                                :icon-class="
-                                    gobalStore.theme === 'dark' ? 'dark' : 'day'
-                                "
-                            />
-                        </el-icon>
-                    </el-button>
                     <el-dropdown>
                         <el-button circle>
                             <el-icon
@@ -158,10 +145,8 @@
 import { reactive, ref } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { userStore } from '@/store/user';
-import { useGlobaltheme } from '@/hook';
 const user = userStore();
 
-const { gobalStore, switchTheme } = useGlobaltheme();
 const form = reactive({
     userName: 'admin',
     password: '123456',

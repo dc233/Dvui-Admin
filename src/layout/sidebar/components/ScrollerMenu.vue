@@ -27,7 +27,6 @@
 import { ref, computed, watch, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import { useGlobalStore } from '@/store/global';
-import LeftBg from '@/assets/img/bg_img.webp';
 const gobalStore = useGlobalStore();
 const porps = withDefaults(
     defineProps<{ fullPath?: string; mode?: string; size?: string }>(),
@@ -49,11 +48,13 @@ const menuBg = computed(() => {
     } else if (gobalStore.menuTheme === 'dark') {
         return 'var(--dark-menu-bg)';
     } else {
+        // 背景模式
         if (gobalStore.layoutMode === 'lcr') {
             return 'transparent';
         } else {
-            return `url(${LeftBg}) var(--dark-menu-bg)`;
+            return `var(--dark-menu-bg)`;
         }
+        // return 'var(--el-bg-color)';
     }
 });
 const activBg = computed(() =>
@@ -71,6 +72,11 @@ const menuSize = computed(() =>
         ? 'calc(var(--el-menu-item-height) - 6px)'
         : '40px',
 );
+const bordeRight = computed(() =>
+    gobalStore.layoutMode === 'classic'
+        ? '1px solid var(--el-menu-border-color)'
+        : 'none',
+);
 watch(
     () => route.fullPath,
     () => {
@@ -87,6 +93,7 @@ watch(
     background: v-bind(menuBg);
     height: calc(100% - #{$logoHeight}) !important;
     background-size: cover;
+    border-right: v-bind(bordeRight);
     .el-menu {
         border-right: none;
         .el-menu-item {
