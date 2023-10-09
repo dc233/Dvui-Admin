@@ -1,73 +1,57 @@
-import DvDialog, { type DvProps } from '@/components/dvDialog/index.vue';
+import DvDialog from '@/components/dvDialog/index.vue';
 import { type Component } from 'vue';
-import { getCurrentInstance, createApp, ref } from 'vue';
-interface ICreateOptions<T> extends Omit<DvProps, 'component'> {
-    onConfirm?: (data: T) => void;
-    onClosed?: () => void;
-    onCancel?: () => void;
+import { ref, h, render } from 'vue';
+/**
+ * 函数式dialog
+ * params  参数参考element-plus Dialog Attributes
+ * 可自定义扩展其它方法和属性
+ */
+interface ICreateOptions {
+    width?: string;
+    title?: string;
+    footer?: boolean;
+    onConfirm?: (data: any) => void;
+    onDialogopen?: () => void;
     defaultOpen?: boolean;
     component: Component;
 }
+
 export default () => {
-    const currentInstance = getCurrentInstance();
-    const appContext = currentInstance?.appContext;
-    function createDialog<
-        T = Element,
-        U = Awaited<ReturnType<InstanceType<T>['submit']>>,
-    >(options?: ICreateOptions<U>) {
+    function createDialog(options?: ICreateOptions) {
         const container = document.createElement('div');
         document.body.appendChild(container);
+
         const openValue = ref(options?.defaultOpen ?? true);
-        const instance = createApp(DvDialog, {
+        const btnLoading = ref(false);
+        const close = () => {
+            render(null, container);
+            document.body.removeChild(container);
+        };
+
+        const closeHandler = (val: boolean) => {
+            if (vNode.component) {
+                vNode.component.props.model_value = val;
+            }
+        };
+
+        const btnHandler = (val: boolean) => {
+            if (vNode.component) {
+                vNode.component.props.btn_loading = val;
+            }
+        };
+        const vNode = h(DvDialog, {
             ...options,
             model_value: openValue.value,
-            onConfirm(data: any) {
-                options?.onConfirm?.(data);
-                openValue.value = false;
-            },
-            onCancel() {
-                options?.onCancel?.();
-                openValue.value = false;
-            },
-            afterClose() {
-                options?.onClosed?.();
-                unmount();
-            },
+            btn_loading: btnLoading.value,
+            'onUpdate:model_value': closeHandler,
+            onFormLoading: btnHandler,
+            hook_invocations: true,
+            onDialogclose: close,
         });
-        // 注入应用的上下文
-        if (appContext) {
-            instance.config.globalProperties =
-                appContext.config.globalProperties;
-            instance.mixin({
-                ...appContext.mixins,
-                components: appContext.components,
-                directives: appContext.directives,
-                provide: appContext.provides,
-            });
-        }
-        function unmount() {
-            openValue.value = false;
-            instance.unmount();
-            container.parentNode?.removeChild(container);
-        }
-        function open() {
-            openValue.value = true;
-            instance.mount(container);
-        }
-        function close() {
-            openValue.value = false;
-        }
-        options?.defaultOpen !== false && open();
-        return {
-            open,
-            close,
-        };
+        render(vNode, container);
     }
+
     return {
         createDialog,
     };
 };
-
-export interface DialogExpose<T = any> {
-    submit?(): Promise<T>;
-}

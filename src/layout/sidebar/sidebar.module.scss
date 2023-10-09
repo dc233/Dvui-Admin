@@ -102,9 +102,11 @@
     box-sizing: border-box;
     z-index: 1;
     color: #fff;
+    margin-bottom: 2px;
     &:hover {
         cursor: pointer;
-        background: hsla(0, 0%, 100%, 0.1);
+        // background: hsla(0, 0%, 100%, 0.1);
+        background: #334067;
     }
 }
 
@@ -130,10 +132,45 @@
         right: 0;
         bottom: 0;
         z-index: -1;
-        background-color: var(--el-color-primary);
+        // background-color: var(--el-color-primary);
+        background-color: #334067;
     }
     &:hover {
         cursor: pointer;
         color: var(--el-color-white);
     }
+}
+.menuTag {
+    position: absolute;
+    height: 18px;
+    line-height: 18px;
+    background: var(--el-color-danger);
+    font-size: 10px;
+    color: #fff;
+    right: 4px;
+    border-radius: 18px;
+    padding: 0 6px;
+}
+.menusubTag {
+    position: absolute;
+    height: 18px;
+    line-height: 18px;
+    background: var(--el-color-danger);
+    font-size: 10px;
+    color: #fff;
+    // right: 32px;
+    left: 4px;
+    border-radius: 18px;
+    padding: 0 6px;
+}
+.tabTag {
+    position: absolute;
+    height: 18px;
+    line-height: 18px;
+    background: var(--el-color-danger);
+    font-size: 10px;
+    color: #fff;
+    right: 32px;
+    border-radius: 18px;
+    padding: 0 6px;
 }

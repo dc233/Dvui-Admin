@@ -66,8 +66,11 @@ export default defineConfig(({ command }): UserConfig => {
                                 'form-context-key',
                                 'form-item-context-key',
                             ];
-                            if (exclude.includes(name)) return;
-                            return `element-plus/theme-chalk/${name}.css`;
+                            if (exclude.includes(name)) {
+                                return;
+                            } else {
+                                return `element-plus/theme-chalk/${name}.css`;
+                            }
                         },
                     },
                 ],

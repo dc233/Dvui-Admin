@@ -151,7 +151,7 @@ export const staticRoutes: AuthRoute.Route[] = [
         name: 'test',
         component: 'layout',
         meta: {
-            title: '测试',
+            title: '单元测试',
             icon: 'table-file',
         },
         children: [
@@ -183,14 +183,26 @@ export const staticRoutes: AuthRoute.Route[] = [
                 meta: {
                     title: '表格',
                     icon: 'table-file',
+                    tag: 'Hot',
                 },
                 children: [
+                    {
+                        path: '/devComponents/table/basictable',
+                        name: 'devComponents_table_basictable',
+                        component: 'self',
+                        meta: {
+                            title: '基础用法',
+                            icon: 'table-file',
+                            keepAlive: false,
+                            tag: 'New',
+                        },
+                    },
                     {
                         path: '/devComponents/table/basetable',
                         name: 'devComponents_table_basetable',
                         component: 'self',
                         meta: {
-                            title: '普通表格',
+                            title: 'CRUD表格',
                             icon: 'table-file',
                             keepAlive: false,
                         },
@@ -205,15 +217,6 @@ export const staticRoutes: AuthRoute.Route[] = [
                         },
                     },
                 ],
-            },
-            {
-                path: '/devComponents/modal',
-                name: 'devComponents_modal',
-                component: 'self',
-                meta: {
-                    title: '函数弹框组件',
-                    icon: 'components',
-                },
             },
             {
                 path: '/devComponents/form',
@@ -241,8 +244,18 @@ export const staticRoutes: AuthRoute.Route[] = [
                 name: 'devComponents_resizebox',
                 component: 'self',
                 meta: {
-                    title: '伸缩框',
+                    title: '切割面板',
                     icon: 'components',
+                },
+            },
+            {
+                path: '/devComponents/dvuiModal',
+                name: 'devComponents_dvuiModal',
+                component: 'self',
+                meta: {
+                    title: '对话框',
+                    icon: 'components',
+                    tag: '演示',
                 },
             },
         ],

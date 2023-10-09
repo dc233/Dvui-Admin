@@ -1,0 +1,16 @@
+node_modules
+public
+src
+dist
+*.md
+.git
+.vscode
+.env
+.eslintignore
+*.ts
+*.js
+*.html
+*.json
+Dockerfile
+nginx.conf
+.dockerignore

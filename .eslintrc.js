@@ -26,5 +26,6 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 'off',
         'vue/prop-name-casing': 'off',
         '@typescript-eslint/no-namespace': 'off',
+        'prettier/prettier': 'off',
     },
 };

@@ -298,6 +298,7 @@ watch(showContextMenu, (val) => {
     background-color: var(--el-bg-color);
     z-index: 97;
     border-bottom: 1px solid var(--el-menu-border-color);
+    user-select: none;
     // background-image: radial-gradient(transparent 1px, var(--el-bg-color) 1px);
     // background-size: 4px 4px;
     // backdrop-filter: saturate(50%) blur(4px);

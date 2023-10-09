@@ -23,8 +23,9 @@
                 </div>
                 <div v-if="toolButton" class="header-button-ri">
                     <slot name="toolButton">
-                        <el-button circle title="刷新" @click="getTableList">
+                        <el-button circle title="刷新" @click="tableRefresh">
                             <el-icon
+                                :class="{ 'rotate-center': isAnimating }"
                                 color="var(--el-text-color-regular)"
                                 :size="14"
                             >
@@ -198,7 +199,7 @@ export interface ProTableProps extends Partial<Omit<TableProps<any>, 'data'>> {
     exportdata?: boolean; // 表格数据导出功能 ===> 非必传 (默认为false )
     title?: string; // 表格标题，目前只在打印的时候用到 ==> 非必传
     initParam?: any; // 初始化请求参数 ==> 非必传（默认为{}）
-    tableName: string; // 表格名称 ==> 非必传（默认为空）
+    tableName?: string; // 表格名称 ==> 非必传（默认为空） 当需要用到表格列存储设置,一定要指定tableName
     rowKey?: string; // 行数据的 Key，用来优化 Table 的渲染，当表格数据多选时，所指定的 id ==> 非必传（默认为 id）
     pagination?: boolean; // 是否需要分页组件 ==> 非必传（默认为true）
     toolButton?: boolean; // 是否显示表格功能按钮 ==> 非必传（默认为true）
@@ -222,7 +223,7 @@ const props = withDefaults(defineProps<ProTableProps>(), {
     requestAuto: true,
     pagination: true,
     initParam: {},
-    toolButton: true,
+    toolButton: false,
     border: true,
     exportdata: false,
     rowKey: 'id',
@@ -232,6 +233,8 @@ const props = withDefaults(defineProps<ProTableProps>(), {
 // 是否显示搜索模块
 const isShowSearch = ref(true);
 
+// 表格操作栏按钮刷新
+const isAnimating = ref(false);
 // 表格 DOM 元素
 const tableRef = ref<InstanceType<typeof ElTable>>();
 
@@ -402,6 +405,14 @@ function handleResetTable() {
     };
     removeLocal(props.tableName);
 }
+// 表格操作栏刷新事件
+const tableRefresh = () => {
+    isAnimating.value = true;
+    getTableList();
+    setTimeout(() => {
+        isAnimating.value = false;
+    }, 500);
+};
 // 暴露给父组件的参数和方法(外部需要什么，都可以从这里暴露出去)
 defineExpose({
     element: tableRef,

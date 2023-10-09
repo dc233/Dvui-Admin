@@ -58,7 +58,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, toRefs } from 'vue';
+import {
+    computed,
+    defineComponent,
+    ref,
+    toRefs,
+    onMounted,
+    nextTick,
+} from 'vue';
 
 //引入element-plus图标
 import { FullScreen, CopyDocument } from '@element-plus/icons-vue';
@@ -152,6 +159,11 @@ export default defineComponent({
             type: Boolean,
             default: true,
         },
+        // hook方式调用dialog
+        hook_invocations: {
+            type: Boolean,
+            default: false,
+        },
     },
     emits: [
         'updateVisible',
@@ -185,7 +197,7 @@ export default defineComponent({
         };
 
         const open = (): void => {
-            if (props.auto_height) {
+            if (props.auto_height && props.hook_invocations === false) {
                 setDlgHeight();
             }
             ctx.emit('open');
@@ -294,7 +306,14 @@ export default defineComponent({
             if (scroll_top) scrollbarRef.value.setScrollTop(0);
             ctx.emit('opened');
         };
-
+        // dialog生命周期
+        onMounted(() => {
+            if (props.hook_invocations) {
+                nextTick(() => {
+                    setDlgHeight();
+                });
+            }
+        });
         return {
             vuecmf_dlg_ref,
             scrollbarRef,

@@ -33,4 +33,5 @@ export interface DialogCrud {
     doDelete(val: object): Promise<any>;
     doUpdate(val: object): Promise<any>;
     refresh(): Promise<any>;
+    filtrationParams?: (val: object) => object;
 }

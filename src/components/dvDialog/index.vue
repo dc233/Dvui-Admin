@@ -9,10 +9,14 @@ export interface DvProps {
     component?: Component;
     model_value?: boolean;
     btn_loading?: boolean;
+    hook_invocations?: boolean;
 }
 const componentRef = ref<any>();
 const emit = defineEmits([
+    'formLoading',
     'cancel',
+    'dialogopen',
+    'dialogclose',
     'confirm',
     'update:model_value',
     'sucessFormValidation',
@@ -23,20 +27,43 @@ const props = withDefaults(defineProps<DvProps>(), {
     component: undefined,
     model_value: false,
     btn_loading: false,
+    hook_invocations: false,
 });
 
 const handleConfirm = () => {
     // 验证表单函数
     const submit: () => Promise<any> =
         componentRef.value?.submit || (() => Promise.resolve(true));
-    submit()
-        .then((data) => {
-            // 成功后执行异步语句
-            emit('sucessFormValidation', data);
-        })
-        .catch((err) => {
-            console.error(err);
-        });
+    // 判断是否是函数式弹框
+    if (props.hook_invocations) {
+        submit()
+            .then((data) => {
+                emit('confirm', data);
+                emit('formLoading', true);
+                setTimeout(() => {
+                    emit('update:model_value', false);
+                }, 500);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    } else {
+        submit()
+            .then((data) => {
+                // 成功后执行异步语句
+                emit('sucessFormValidation', data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+};
+
+const handelOpen = () => {
+    emit('dialogopen');
+};
+const handelClose = () => {
+    emit('dialogclose');
 };
 const editDialog = (val: object) => {
     nextTick(() => {
@@ -57,7 +84,12 @@ defineExpose({
 </script>
 
 <template>
-    <VuecmfDialog v-bind="props" @update-visible="updateVisible">
+    <VuecmfDialog
+        v-bind="props"
+        @update-visible="updateVisible"
+        @close="handelClose"
+        @opened="handelOpen"
+    >
         <!-- dialog渲染内容 -->
         <template #content>
             <slot>
@@ -70,7 +102,7 @@ defineExpose({
             </slot>
         </template>
         <!-- dialog页脚渲染 -->
-        <template #footer>
+        <template v-if="footer" #footer>
             <el-space wrap>
                 <el-button @click="handleCancel">取消</el-button>
                 <el-button

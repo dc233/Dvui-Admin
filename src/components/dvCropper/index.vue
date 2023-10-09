@@ -60,6 +60,7 @@ function getCropBlob(cb, type = 'image/jpeg') {
         props.compress,
     );
 }
+
 function getCropFile(cb, fileName = 'fileName.jpg', type = 'image/jpeg') {
     crop.value.getCroppedCanvas().toBlob(
         (blob) => {
@@ -70,6 +71,7 @@ function getCropFile(cb, fileName = 'fileName.jpg', type = 'image/jpeg') {
         props.compress,
     );
 }
+
 // 监听图像的纵横比例
 watch(
     () => props.aspectRatio,

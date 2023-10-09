@@ -91,25 +91,95 @@
                     </div>
                 </div>
             </el-card>
-            <el-card shadow="never" header="多图上传">多图上传</el-card>
-            <el-card shadow="never" header="验证表单中使用"
-                >验证表单中使用</el-card
-            >
+            <el-card shadow="never" header="多图上传">
+                <dvImguploads v-model:file-list="fileList" :drag="false">
+                </dvImguploads>
+            </el-card>
+            <el-card shadow="never" header="验证表单中使用">
+                <el-form
+                    ref="formRef"
+                    :model="form"
+                    label-width="auto"
+                    :rules="rules"
+                >
+                    <el-form-item label="身份证正面" prop="img">
+                        <dvImgupload v-model:image-url="form.img" width="250px">
+                            <template #empty>
+                                <el-icon
+                                    :size="20"
+                                    color="var(--el-text-color-regular)"
+                                >
+                                    <svg-icon icon-class="pic" />
+                                </el-icon>
+                                <span>请上传身份证正面</span>
+                            </template>
+                        </dvImgupload>
+                    </el-form-item>
+                    <el-form-item label="身份证反面" prop="img2">
+                        <dvImgupload
+                            v-model:image-url="form.img2"
+                            width="250px"
+                        >
+                            <template #empty>
+                                <el-icon
+                                    :size="20"
+                                    color="var(--el-text-color-regular)"
+                                >
+                                    <svg-icon icon-class="pic" />
+                                </el-icon>
+                                <span>请上传身份证正面</span>
+                            </template>
+                        </dvImgupload>
+                    </el-form-item>
+                    <el-form-item label="多图上传" prop="img3">
+                        <dvImguploads
+                            v-model:file-list="form.img3"
+                            :drag="false"
+                        >
+                        </dvImguploads>
+                    </el-form-item>
+                    <el-form-item label="文件上传" prop="file">
+                        <dv-fileupload
+                            v-model="form.file"
+                            :limit="3"
+                            tip="最多上传3个文件,单个文件不要超过10M,请上传xlsx/csv格式文件"
+                        >
+                            <el-button type="primary">
+                                <el-icon :size="18" class="p-r-1">
+                                    <svg-icon icon-class="upload" />
+                                </el-icon>
+                                上传附件
+                            </el-button>
+                        </dv-fileupload>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitForm(formRef)">
+                            验证
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </el-card>
         </el-space>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import dvFileupload from '@/components/dvUpload/file.vue';
 import dvImgupload from '@/components/dvUpload/img.vue';
+import dvImguploads from '@/components/dvUpload/imgs.vue';
+import type { FormInstance, FormRules } from 'element-plus';
 interface FileList {
     name: string;
     url: string;
 }
-const fileurl = ref(
-    'http://www.scuiadmin.com/files/220000198611262243.xlsx,http://www.scuiadmin.com/files/350000201004261875.xlsx',
-);
+const fileList = ref([
+    {
+        name: 'img',
+        url: 'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
+    },
+]);
+const formRef = ref<FormInstance>();
 const fileurlArr = ref<FileList[]>([
     {
         name: '销售合同模板.xlsx',
@@ -121,6 +191,45 @@ const fileurlArr = ref<FileList[]>([
     },
 ]);
 
+interface RuleForm {
+    img: string;
+    img2: string;
+    img3: object[];
+    file: object[];
+}
+const form = reactive<RuleForm>({
+    img: '',
+    img2: '',
+    img3: [
+        {
+            name: 'img',
+            url: 'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
+        },
+    ],
+    file: [
+        // {
+        //     name: '销售合同模板.xlsx',
+        //     url: 'http://www.scuiadmin.com/files/220000198611262243.xlsx',
+        // },
+    ],
+});
+const rules = reactive<FormRules<RuleForm>>({
+    img: [{ required: true, message: '请上传图片' }],
+    img2: [{ required: true, message: '请上传图片' }],
+    img3: [{ required: true, message: '请上传图片' }],
+    file: [{ required: true, message: '请上传文件' }],
+});
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return;
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log('submit!');
+        } else {
+            console.log('error submit!', fields);
+        }
+    });
+};
 const avatar1 = ref(
     'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
 );

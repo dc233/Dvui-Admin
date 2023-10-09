@@ -5,6 +5,9 @@ declare namespace Common {
      * [状态, 为true时执行的回调函数]
      */
     type StrategyAction = [boolean, () => void];
+
+    // 定义一个string作为key的类型
+    type stringKey = Record<string, any>;
 }
 
 /**

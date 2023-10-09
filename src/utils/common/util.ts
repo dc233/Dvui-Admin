@@ -1,5 +1,7 @@
 import { isArray, isObject } from './typeof';
 import { FieldNamesProps } from '@/components/dvTable/interface';
+import { cloneDeep } from 'lodash-es';
+
 /* 千分符 */
 export function groupSeparator(num: number | string) {
     num = num + '';
@@ -107,16 +109,44 @@ export function findItemNested(
  * @returns { object}
  */
 
-export function convertParams(params: object) {
+export function convertParams(params: Common.stringKey) {
     // 判断params是否是对象
     if (!isObject(params)) return;
     // 遍历需要转换的数据
-    // for (const key in params) {
-    //     if (params[key] === 'time') {
-
-    //     }
-    // }
+    const obj = cloneDeep(params);
+    for (const key in obj) {
+        if (isArray(obj[key])) {
+            obj[key] = obj[key].toString();
+        }
+    }
+    return obj;
 }
+
+/**
+ * 过滤对象中为空的属性
+ * @param obj
+ * @returns {*}
+ */
+export function filterObj(obj: Common.stringKey) {
+    if (!(typeof obj == 'object')) {
+        return;
+    }
+
+    for (const key in obj) {
+        if (
+            Object.prototype.hasOwnProperty.call(obj, key) &&
+            (obj[key] == null ||
+                obj[key] == undefined ||
+                obj[key] === '' ||
+                obj[key].length === 0 ||
+                obj[key] === '')
+        ) {
+            delete obj[key];
+        }
+    }
+    return obj;
+}
+
 /**
  * @description 生成唯一 uuid
  * @returns {String}

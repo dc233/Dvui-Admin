@@ -6,6 +6,7 @@
             :columns="columns"
             :request-api="fetchGetdata"
             :exportdata="true"
+            :tool-button="true"
             table-name="basetable"
             :init-param="initParam"
             :search-col="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 5 }"
@@ -85,21 +86,25 @@
             v-model:model_value="dialogVisible"
             :btn_loading="dialogLoading"
             :component="TestModal"
+            center
             width="600"
             :title="dialogTitle"
             @sucess-form-validation="handleSave"
+            @dialogopen="handelOpen"
         />
     </div>
 </template>
 
 <script setup lang="tsx" name="Basetable">
-import { ref, reactive } from 'vue';
+import { ref, reactive, defineAsyncComponent } from 'vue';
 import { ElMessage, dayjs } from 'element-plus';
 import DvTable from '@/components/dvTable/index.vue';
 import { fetchGetdata, fetchGetStatus } from '@/api/login';
 import { useHandleData } from '@/hook/useHandleData';
 import useCRUD from '@/hook/useCRUD';
 import DvDialog from '@/components/dvDialog/index.vue';
+// 异步组件引入
+// const TestModal = defineAsyncComponent(() => import('./testModal.vue'));
 import TestModal from './testModal.vue';
 // import tableDialog from '@/components/vuecmfDialog/index.vue';
 // 表格ref
@@ -291,6 +296,7 @@ const {
     doUpdate: fetchGetdata,
     refresh: () => duTable.value?.getTableList(),
 });
+
 const editDialog = (val: object) => {
     console.log(val);
     handleEdit();
@@ -308,5 +314,9 @@ const changeStatus = async (row) => {
         `切换【${row.name}】用户状态`,
     );
     duTable.value?.getTableList();
+};
+
+const handelOpen = () => {
+    ElMessage.success('我是open事件的回调');
 };
 </script>

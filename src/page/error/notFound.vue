@@ -25,14 +25,18 @@
             </div>
             <div class="bullshit">
                 <div class="bullshit__oops">抱歉，没有找到该页面!</div>
-                <div class="bullshit__info">请您确认是否有该页面？</div>
+                <!-- <div class="bullshit__info">请您确认是否有该页面？</div> -->
                 <div class="bullshit__headline">{{ message }}</div>
                 <div class="bullshit__info">
                     请检查您输入的网址是否正确，或点击下面的按钮返回主页
                 </div>
-                <a class="bullshit__return-home" @click="handelHome"
-                    >回到首页</a
-                >
+                <el-space :size="20">
+                    <el-button type="primary" round @click="handelHome"
+                        >回到首页</el-button
+                    >
+                    <el-button type="primary" plain round>重新登录</el-button>
+                    <el-button type="primary" plain round>返回上一页</el-button>
+                </el-space>
             </div>
         </div>
     </div>
@@ -40,7 +44,7 @@
 <script setup lang="ts" name="notFound">
 import { useRouter } from 'vue-router';
 const router = useRouter();
-const message = '网站管理员说你不能进入这个页面...';
+const message = '无权限或找不到页面...';
 const handelHome = () => {
     router.push('/');
 };
@@ -171,7 +175,7 @@ const handelHome = () => {
     .bullshit {
         position: relative;
         float: left;
-        width: 300px;
+        width: 340px;
         padding: 30px 0;
         overflow: hidden;
         &__oops {
@@ -219,7 +223,7 @@ const handelHome = () => {
             color: #ffffff;
             opacity: 0;
             font-size: 14px;
-            line-height: 40px;
+            line-height: 36px;
             cursor: pointer;
             animation-name: slideUp;
             animation-duration: 0.5s;

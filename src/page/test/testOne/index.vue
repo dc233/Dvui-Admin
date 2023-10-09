@@ -1,7 +1,14 @@
 <template>
-    <div style="height: 500px">测试页面一</div>
+    <div style="height: 500px">
+        <div class="anim-stage rotate-center">😄</div>
+    </div>
 </template>
 
 <script setup lang="ts" name="workPlace"></script>
 
-<style lang="scss" scoped></style>
+<style>
+.anim-stage {
+    width: 50px;
+    height: 50px;
+}
+</style>

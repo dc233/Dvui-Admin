@@ -22,6 +22,11 @@ const rightChildrenMenu = (routes: AuthRoute.Route[]) => {
                             <span></span>
                         )}
                         {item.meta.title}
+                        {item.meta.tag ? (
+                            <span class={style.menuTag}>{item.meta.tag}</span>
+                        ) : (
+                            <span></span>
+                        )}
                     </ElMenuItem>
                 </>
             );
@@ -40,6 +45,13 @@ const rightChildrenMenu = (routes: AuthRoute.Route[]) => {
                                 <span></span>
                             )}
                             <span>{item.meta.title}</span>
+                            {item.meta.tag ? (
+                                <span class={style.menuTag}>
+                                    {item.meta.tag}
+                                </span>
+                            ) : (
+                                <span></span>
+                            )}
                         </>
                     ),
                 }}

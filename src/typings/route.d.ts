@@ -19,6 +19,7 @@ declare namespace AuthRoute {
         frameSrc?: string;
         /** 作为单级路由的父级路由布局组件 */
         singleLayout?: string;
+        tag?: string;
     }
     /** 单个路由的类型结构(动态路由模式：后端返回此类型结构的路由) */
     interface Route {
@@ -42,8 +43,8 @@ declare namespace AuthRoute {
         meta: RouteMeta;
         /** 路由属性 */
         props?:
-            | boolean
-            | Record<string, any>
-            | ((to: any) => Record<string, any>);
+        | boolean
+        | Record<string, any>
+        | ((to: any) => Record<string, any>);
     }
 }

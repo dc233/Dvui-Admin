@@ -1,7 +1,8 @@
-import { defineComponent, PropType, computed, onMounted } from 'vue';
+import { defineComponent } from 'vue';
 import HorizontalMenu from './components/Menue.vue';
 import { ElMenuItem, ElSubMenu, ElIcon } from 'element-plus';
 import { useRouteStore } from '@/store/route';
+import style from './sidebar.module.scss';
 // 渲染菜单
 const useRenderMenu = (routes: AuthRoute.Route[]) => {
     return routes.map((item) => {
@@ -17,6 +18,11 @@ const useRenderMenu = (routes: AuthRoute.Route[]) => {
                             <span></span>
                         )}
                         {item.meta.title}
+                        {item.meta.tag ? (
+                            <span class={style.menuTag}>{item.meta.tag}</span>
+                        ) : (
+                            <span></span>
+                        )}
                     </ElMenuItem>
                 </>
             );
@@ -35,6 +41,13 @@ const useRenderMenu = (routes: AuthRoute.Route[]) => {
                                 <span></span>
                             )}
                             <span>{item.meta.title}</span>
+                            {item.meta.tag ? (
+                                <span class={style.menuTag}>
+                                    {item.meta.tag}
+                                </span>
+                            ) : (
+                                <span></span>
+                            )}
                         </>
                     ),
                 }}

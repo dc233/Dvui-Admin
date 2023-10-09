@@ -10,6 +10,7 @@ export default function ({
     doDelete,
     doUpdate,
     refresh,
+    filtrationParams,
 }: DialogCrud) {
     const dialogVisible = ref(false);
     const dialogAction = ref<action>('add');
@@ -38,13 +39,19 @@ export default function ({
             return;
         }
         console.log(dialogAction.value);
-        const actions = {
+        const actions: action = {
             add: {
-                api: () => doCreate(value),
+                api: () =>
+                    doCreate(
+                        filtrationParams ? filtrationParams(value) : value,
+                    ),
                 cb: (msg: string) => ElMessage.success(msg || '新增成功'),
             },
             edit: {
-                api: () => doUpdate(value),
+                api: () =>
+                    doUpdate(
+                        filtrationParams ? filtrationParams(value) : value,
+                    ),
                 cb: (msg: string) => ElMessage.success(msg || '编辑成功'),
             },
         };
@@ -64,11 +71,11 @@ export default function ({
         }
     }
     /**删除 */
-    async function handleDelet(value: object, msg?: string) {
+    async function handleDelet(value: object) {
         await useHandleData(
             doDelete,
             {
-                id: value?.id,
+                id: value.id,
             },
             `要删除当前数据吗？`,
         );

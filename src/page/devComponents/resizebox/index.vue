@@ -1,55 +1,17 @@
 <template>
     <div class="content-layout">
-        <PageSplit
-            :distribute="0.2"
-            :line-thickness="7"
-            :is-vertical="false"
-            :first-min-value="300"
-            background-color="#e5e6eb"
-            hover-color="#e5e6eb"
-            :is-first-component-masked="true"
-            @resize-line-start-move="onresizeLineStartMove"
-            @resize-line-move="onResizeLineMove"
-            @resize-line-end-move="onresizeLineEndMove"
-        >
-            <template #first>
-                <h1>A</h1>
-                <div class="w-200px h-400px bg-blue"></div>
-            </template>
-            <template #second>
-                <PageSplit
-                    :distribute="0.5"
-                    :line-thickness="7"
-                    :is-vertical="true"
-                    :first-min-value="300"
-                    :second-min-value="300"
-                    background-color="#e5e6eb"
-                    hover-color="#e5e6eb"
-                    :is-first-component-masked="true"
-                    @resize-line-start-move="onresizeLineStartMove"
-                    @resize-line-move="onResizeLineMove"
-                    @resize-line-end-move="onresizeLineEndMove"
-                >
-                    <template #first>
-                        <h1>B</h1>
-                    </template>
-                    <template #second>
-                        <h1>C</h1>
-                    </template>
-                </PageSplit>
-            </template>
-        </PageSplit>
+        <div>计数器: {{ num }}</div>
+        <button @click="numadd">+</button>
     </div>
 </template>
 
-<script setup lang="ts">
-import PageSplit from '@/components/dvPageSplit/index.vue';
+<script setup lang="ts" name="resizeBox">
+import { ref } from 'vue';
+const num = ref(1);
 
-const onresizeLineStartMove = () => {};
-
-const onResizeLineMove = () => {};
-
-const onresizeLineEndMove = () => {};
+const numadd = () => {
+    num.value += 1;
+};
 </script>
 
 <style lang="scss" scoped></style>

@@ -8,7 +8,7 @@
                 </div>
                 <div class="loginetext-f">开箱即用的中后台管理系统</div>
                 <div class="logintext-b">
-                    基于Vue3 + Element-Plus + vite3 的中后台前端解决方案
+                    基于Vue3 + Element-Plus + vite4 的中后台前端解决方案
                 </div>
 
                 <div class="carousel">
@@ -135,6 +135,20 @@
                             </router-link>
                         </div>
                     </el-form-item>
+                    <el-form-item>
+                        <el-divider>演示账号一键登录</el-divider>
+                        <div class="w-full text-center">
+                            <el-space>
+                                <el-button
+                                    type="primary"
+                                    size="small"
+                                    @click="adminLogin"
+                                    >admin</el-button
+                                >
+                                <el-button size="small">test</el-button>
+                            </el-space>
+                        </div>
+                    </el-form-item>
                 </el-form>
             </div>
         </div>
@@ -148,8 +162,8 @@ import { userStore } from '@/store/user';
 const user = userStore();
 
 const form = reactive({
-    userName: 'admin',
-    password: '123456',
+    userName: '',
+    password: '',
 });
 
 const ruleFormRef = ref<FormInstance>();
@@ -164,6 +178,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             user.login(form);
         }
     });
+};
+// admin 账号
+const adminLogin = () => {
+    form.userName = 'admin';
+    form.password = '123456';
+    user.login(form);
 };
 </script>
 

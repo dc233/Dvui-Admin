@@ -14,7 +14,18 @@ const useRenderMenu = (routes: AuthRoute.Route[]) => {
                     <ElMenuItem
                         index={item.path}
                         v-slots={{
-                            title: () => <>{item.meta.title}</>,
+                            title: () => (
+                                <>
+                                    <span>{item.meta.title}</span>
+                                    {item.meta.tag ? (
+                                        <span class={style.menuTag}>
+                                            {item.meta.tag}
+                                        </span>
+                                    ) : (
+                                        <span></span>
+                                    )}
+                                </>
+                            ),
                         }}
                     >
                         {item.meta.icon ? (
@@ -42,6 +53,13 @@ const useRenderMenu = (routes: AuthRoute.Route[]) => {
                                 <span></span>
                             )}
                             <span>{item.meta.title}</span>
+                            {item.meta.tag ? (
+                                <span class={style.menusubTag}>
+                                    {item.meta.tag}
+                                </span>
+                            ) : (
+                                <span></span>
+                            )}
                         </>
                     ),
                 }}
